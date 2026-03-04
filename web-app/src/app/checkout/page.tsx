@@ -11,6 +11,12 @@ export default function CheckoutPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
+
+    // Customer Details
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [email, setEmail] = useState("");
+
     const router = useRouter();
 
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -18,7 +24,11 @@ export default function CheckoutPage() {
     const placeOrder = async () => {
         if (cart.length === 0) return;
         if (!tableNumber) {
-            setError("Please scan a table QR code first!");
+            setError("Please scan a table QR code first or enter your table number.");
+            return;
+        }
+        if (!name.trim() || !phone.trim()) {
+            setError("Name and Phone Number are required.");
             return;
         }
 
@@ -31,6 +41,9 @@ export default function CheckoutPage() {
                 .from('orders')
                 .insert([{
                     table_number: tableNumber,
+                    customer_name: name.trim(),
+                    customer_phone: phone.trim(),
+                    customer_email: email.trim() || null,
                     total_price: total,
                     order_status: 'Pending'
                 }])
@@ -160,6 +173,43 @@ export default function CheckoutPage() {
                         )}
                     </div>
 
+                    {/* Customer Details */}
+                    <div className="glass-panel p-8 rounded-3xl border border-white/5">
+                        <h2 className="text-xl font-bold mb-4 text-white">Your Details</h2>
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-white/70 text-sm mb-1">Full Name *</label>
+                                <input
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    placeholder="Enter your name"
+                                    className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#D4AF37] transition font-light"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-white/70 text-sm mb-1">Phone Number *</label>
+                                <input
+                                    type="tel"
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
+                                    placeholder="Enter your phone"
+                                    className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#D4AF37] transition font-light"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-white/70 text-sm mb-1">Email <span className="text-white/40">(Optional)</span></label>
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="Enter your email"
+                                    className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#D4AF37] transition font-light"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
                     {error && (
                         <div className="bg-red-900/20 text-red-200 p-4 rounded-xl border border-red-500/30 text-sm flex items-center gap-2">
                             <AlertCircle className="w-5 h-5 flex-shrink-0" /> {error}
@@ -168,7 +218,7 @@ export default function CheckoutPage() {
 
                     <button
                         onClick={placeOrder}
-                        disabled={loading || cart.length === 0 || !tableNumber}
+                        disabled={loading || cart.length === 0 || !tableNumber || !name.trim() || !phone.trim()}
                         className="w-full py-5 rounded-2xl bg-gradient-to-r from-[#8B0000] to-red-900 text-white font-bold text-lg hover:from-red-900 hover:to-[#8B0000] transition active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-[#8B0000]/20 flex justify-center items-center"
                     >
                         {loading ? (

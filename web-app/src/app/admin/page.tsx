@@ -5,12 +5,22 @@ import { supabase } from "@/lib/supabase";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bell, CheckSquare, Clock, LayoutDashboard, UtensilsCrossed } from "lucide-react";
 
+type OrderItem = {
+    id: string;
+    item_name: string;
+    quantity: number;
+    price_per_item: number;
+};
+
 type Order = {
     id: string;
     table_number: string;
+    customer_name: string;
+    customer_phone: string;
     total_price: number;
     order_status: 'Pending' | 'Preparing' | 'Ready' | 'Served';
     created_at: string;
+    order_items?: OrderItem[];
 };
 
 export default function AdminDashboard() {
@@ -24,12 +34,13 @@ export default function AdminDashboard() {
         const subscription = supabase
             .channel('public:orders')
             .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'orders' }, payload => {
-                setOrders(prev => [payload.new as Order, ...prev]);
+                // Fetch the new order correctly to include the nested joined items
+                setTimeout(fetchOrders, 1000);
                 // Play notification sound
                 new Audio('/bell.mp3').play().catch(() => { }); // Optional sound alert
             })
             .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'orders' }, payload => {
-                setOrders(prev => prev.map(o => o.id === payload.new.id ? payload.new as Order : o));
+                setOrders(prev => prev.map(o => o.id === payload.new.id ? { ...o, order_status: payload.new.order_status as any } : o));
             })
             .subscribe();
 
@@ -41,7 +52,7 @@ export default function AdminDashboard() {
     const fetchOrders = async () => {
         const { data, error } = await supabase
             .from('orders')
-            .select('*')
+            .select('*, order_items(*)')
             .order('created_at', { ascending: false });
 
         if (data) setOrders(data);
@@ -96,23 +107,43 @@ export default function AdminDashboard() {
                                     animate={{ opacity: 1, scale: 1, y: 0 }}
                                     exit={{ opacity: 0, scale: 0.9 }}
                                     className={`glass-panel p-6 rounded-2xl border transition-colors ${order.order_status === 'Pending' ? 'border-[#8B0000]/50 shadow-lg shadow-[#8B0000]/20' :
-                                            order.order_status === 'Preparing' ? 'border-[#D4AF37]/50 shadow-lg shadow-[#D4AF37]/20' :
-                                                'border-white/10 opacity-70'
+                                        order.order_status === 'Preparing' ? 'border-[#D4AF37]/50 shadow-lg shadow-[#D4AF37]/20' :
+                                            'border-white/10 opacity-70'
                                         }`}
                                 >
                                     <div className="flex justify-between items-start mb-4">
                                         <div>
                                             <span className="text-sm text-white/50 block mb-1">Table Number</span>
                                             <span className="text-3xl font-black text-white">{order.table_number}</span>
+                                            {order.customer_name && (
+                                                <div className="mt-2">
+                                                    <span className="text-white font-bold">{order.customer_name}</span>
+                                                    <span className="text-white/50 text-sm block">{order.customer_phone}</span>
+                                                </div>
+                                            )}
                                         </div>
                                         <span className={`px-3 py-1 rounded-full text-xs font-bold ${order.order_status === 'Pending' ? 'bg-red-500/20 text-red-300' :
-                                                order.order_status === 'Preparing' ? 'bg-yellow-500/20 text-yellow-300' :
-                                                    order.order_status === 'Ready' ? 'bg-green-500/20 text-green-300' :
-                                                        'bg-white/10 text-white/50'
+                                            order.order_status === 'Preparing' ? 'bg-yellow-500/20 text-yellow-300' :
+                                                order.order_status === 'Ready' ? 'bg-green-500/20 text-green-300' :
+                                                    'bg-white/10 text-white/50'
                                             }`}>
                                             {order.order_status}
                                         </span>
                                     </div>
+
+                                    {order.order_items && order.order_items.length > 0 && (
+                                        <div className="my-4 space-y-2 max-h-40 overflow-y-auto pr-2 bg-black/20 p-3 rounded-lg border border-white/5">
+                                            {order.order_items.map(item => (
+                                                <div key={item.id} className="flex justify-between items-center text-sm">
+                                                    <div className="flex gap-2 text-white/80">
+                                                        <span className="font-bold text-white">{item.quantity}x</span>
+                                                        <span>{item.item_name}</span>
+                                                    </div>
+                                                    <span className="text-white/60">₹{item.price_per_item * item.quantity}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
 
                                     <div className="h-px bg-white/10 w-full my-4" />
 
