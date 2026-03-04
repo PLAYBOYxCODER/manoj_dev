@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppContext } from "@/context/AppContext";
 import { supabase } from "@/lib/supabase";
@@ -17,6 +17,15 @@ export default function CheckoutPage() {
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
 
+    useEffect(() => {
+        const savedName = localStorage.getItem("customer_name") || "";
+        const savedPhone = localStorage.getItem("customer_phone") || "";
+        const savedEmail = localStorage.getItem("customer_email") || "";
+        setName(savedName);
+        setPhone(savedPhone);
+        setEmail(savedEmail);
+    }, []);
+
     const router = useRouter();
 
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -27,10 +36,15 @@ export default function CheckoutPage() {
             setError("Please scan a table QR code first or enter your table number.");
             return;
         }
-        if (!name.trim() || !phone.trim()) {
-            setError("Name and Phone Number are required.");
+        if (!name.trim()) {
+            setError("Name is required to place an order.");
             return;
         }
+
+        // Save for next time
+        localStorage.setItem("customer_name", name.trim());
+        localStorage.setItem("customer_phone", phone.trim());
+        localStorage.setItem("customer_email", email.trim());
 
         setLoading(true);
         setError(null);
@@ -42,7 +56,7 @@ export default function CheckoutPage() {
                 .insert([{
                     table_number: tableNumber,
                     customer_name: name.trim(),
-                    customer_phone: phone.trim(),
+                    customer_phone: phone.trim() || null,
                     customer_email: email.trim() || null,
                     total_price: total,
                     order_status: 'Pending'
@@ -188,7 +202,7 @@ export default function CheckoutPage() {
                                 />
                             </div>
                             <div>
-                                <label className="block text-white/70 text-sm mb-1">Phone Number *</label>
+                                <label className="block text-white/70 text-sm mb-1">Phone Number <span className="text-white/40">(Optional)</span></label>
                                 <input
                                     type="tel"
                                     value={phone}
@@ -218,7 +232,7 @@ export default function CheckoutPage() {
 
                     <button
                         onClick={placeOrder}
-                        disabled={loading || cart.length === 0 || !tableNumber || !name.trim() || !phone.trim()}
+                        disabled={loading || cart.length === 0 || !tableNumber || !name.trim()}
                         className="w-full py-5 rounded-2xl bg-gradient-to-r from-[#8B0000] to-red-900 text-white font-bold text-lg hover:from-red-900 hover:to-[#8B0000] transition active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-[#8B0000]/20 flex justify-center items-center"
                     >
                         {loading ? (

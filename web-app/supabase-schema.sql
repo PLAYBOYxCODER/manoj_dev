@@ -33,7 +33,7 @@ CREATE TABLE orders (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     table_number VARCHAR(10) NOT NULL,
     customer_name VARCHAR(255) NOT NULL,
-    customer_phone VARCHAR(20) NOT NULL,
+    customer_phone VARCHAR(20),
     customer_email VARCHAR(255),
     total_price DECIMAL(10, 2) NOT NULL,
     order_status VARCHAR(50) DEFAULT 'Pending', -- 'Pending', 'Preparing', 'Ready', 'Served'
