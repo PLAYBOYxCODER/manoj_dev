@@ -1,0 +1,61 @@
+export const menuItems = [
+    // Biryani
+    { id: 'b1', name: 'Chicken Dum Biryani', price: 220, discount: 10, description: 'Aromatic basmati rice layered with spicy marinated chicken, slow-cooked in dum style.', stock: 'Available', image: '/biryani1.jpg', category: 'Biryani' },
+    { id: 'b2', name: 'Mutton Dum Biryani', price: 320, discount: 5, description: 'Tender mutton cooked with royal spices and premium long-grain rice.', stock: 'Available', image: '/mutton1.jpg', category: 'Biryani' },
+    { id: 'b3', name: 'Chicken 65 Biryani', price: 250, discount: 8, description: 'Spicy Chicken 65 pieces layered over rich biryani rice.', stock: 'Available', image: '/biryani3.jpg', category: 'Biryani' },
+    { id: 'b4', name: 'Boneless Chicken Biryani', price: 260, discount: 10, description: 'Juicy boneless chicken mixed with aromatic dum rice.', stock: 'Available', image: '/biryani2.jpg', category: 'Biryani' },
+    { id: 'b5', name: 'Mandi Chicken Biryani', price: 270, discount: 7, description: 'Arabic-style mandi rice served with flavorful chicken.', stock: 'Available', image: '/mandi2.jpg', category: 'Biryani' },
+    { id: 'b6', name: 'Mandi Mutton Biryani', price: 360, discount: 6, description: 'Authentic mutton mandi with rich Middle Eastern spices.', stock: 'Available', image: '/mandi.jpg', category: 'Biryani' },
+    { id: 'b7', name: 'Egg Biryani', price: 180, discount: 5, description: 'Boiled eggs cooked in traditional biryani masala.', stock: 'Available', image: '/biryani3.jpg', category: 'Biryani' },
+    { id: 'b8', name: 'Veg Biryani', price: 160, discount: 5, description: 'Mixed vegetables cooked with fragrant spices and basmati rice.', stock: 'Available', image: '/biryani1.jpg', category: 'Biryani' },
+    { id: 'b9', name: 'Prawn Biryani', price: 350, discount: 8, description: 'Coastal-style prawn biryani with bold spices.', stock: 'Limited', image: '/biryani2.jpg', category: 'Biryani' },
+    { id: 'b10', name: 'Family Pack Chicken Biryani', price: 750, discount: 10, description: 'Large portion chicken biryani perfect for sharing.', stock: 'Available', image: '/mandi2.jpg', category: 'Biryani' },
+
+    // Starters
+    { id: 's1', name: 'Chicken 65', price: 180, discount: 10, description: 'Crispy deep-fried spicy chicken bites.', stock: 'Available', image: '/chicken65.jpg', category: 'Starters' },
+    { id: 's2', name: 'Apollo Fish', price: 240, discount: 5, description: 'Boneless fish tossed in spicy Andhra-style masala.', stock: 'Available', image: '/fish.jpg', category: 'Starters' },
+    { id: 's3', name: 'Chilli Chicken', price: 200, discount: 8, description: 'Indo-Chinese style spicy chicken starter.', stock: 'Available', image: '/chicken65.jpg', category: 'Starters' },
+    { id: 's4', name: 'Dragon Chicken', price: 220, discount: 7, description: 'Sweet and spicy crispy chicken strips.', stock: 'Available', image: '/chicken65.jpg', category: 'Starters' },
+    { id: 's5', name: 'Pepper Chicken Fry', price: 210, discount: 6, description: 'Black pepper flavored chicken fry.', stock: 'Available', image: '/chicken65.jpg', category: 'Starters' },
+    { id: 's6', name: 'Chicken Wings', price: 200, discount: 6, description: 'Crispy and juicy chicken wings.', stock: 'Available', image: '/chicken65.jpg', category: 'Starters' },
+    { id: 's7', name: 'Tandoori Chicken (Half)', price: 240, discount: 5, description: 'Classic half tandoori chicken roasted in clay oven.', stock: 'Available', image: '/tandoori.jpg', category: 'Starters' },
+    { id: 's8', name: 'Paneer Tikka', price: 220, discount: 8, description: 'Grilled chunks of paneer marinated in spices.', stock: 'Available', image: '/paneer.jpg', category: 'Starters' },
+    { id: 's9', name: 'Gobi Manchurian', price: 160, discount: 10, description: 'Crispy cauliflower tossed in manchurian sauce.', stock: 'Available', image: '/gobi.jpg', category: 'Starters' },
+    { id: 's10', name: 'Prawn Fry', price: 350, discount: 7, description: 'Spicy pan-fried prawns.', stock: 'Available', image: '/fish.jpg', category: 'Starters' },
+
+    // Curries
+    { id: 'c1', name: 'Butter Chicken', price: 260, discount: 8, description: 'Rich and creamy butter chicken curry.', stock: 'Available', image: '/curry.jpg', category: 'Curries' },
+    { id: 'c2', name: 'Kadai Chicken', price: 240, discount: 6, description: 'Spicy chicken cooked in Kadai with bell peppers.', stock: 'Available', image: '/curry.jpg', category: 'Curries' },
+    { id: 'c3', name: 'Mutton Curry', price: 320, discount: 5, description: 'Authentic Indian style mutton curry.', stock: 'Available', image: '/mutton_curry.jpg', category: 'Curries' },
+    { id: 'c4', name: 'Fish Curry', price: 280, discount: 6, description: 'Tangy and spicy coastal fish curry.', stock: 'Available', image: '/fish.jpg', category: 'Curries' },
+    { id: 'c5', name: 'Prawn Curry', price: 360, discount: 7, description: 'Delicious prawn curry with coconut base.', stock: 'Available', image: '/fish.jpg', category: 'Curries' },
+    { id: 'c6', name: 'Paneer Butter Masala', price: 220, discount: 8, description: 'Paneer cooked in rich tomato gravy.', stock: 'Available', image: '/paneer.jpg', category: 'Curries' },
+    { id: 'c7', name: 'Dal Tadka', price: 140, discount: 5, description: 'Tempered yellow lentils.', stock: 'Available', image: '/curry.jpg', category: 'Curries' },
+    { id: 'c8', name: 'Mushroom Masala', price: 180, discount: 6, description: 'Mushrooms in a spicy onion-tomato gravy.', stock: 'Available', image: '/curry.jpg', category: 'Curries' },
+    { id: 'c9', name: 'Egg Curry', price: 160, discount: 6, description: 'Boiled eggs in a flavorful masala.', stock: 'Available', image: '/curry.jpg', category: 'Curries' },
+    { id: 'c10', name: 'Chicken Tikka Masala', price: 250, discount: 7, description: 'Roasted chicken chunks in a spicy sauce.', stock: 'Available', image: '/curry.jpg', category: 'Curries' },
+
+    // Veg Items
+    { id: 'v1', name: 'Veg Fried Rice', price: 150, discount: 5, description: 'Stir-fried rice with fresh veggies.', stock: 'Available', image: '/rice.jpg', category: 'Veg Items' },
+    { id: 'v2', name: 'Paneer Fried Rice', price: 180, discount: 6, description: 'Fried rice tossed with paneer cubes.', stock: 'Available', image: '/rice.jpg', category: 'Veg Items' },
+    { id: 'v3', name: 'Mushroom Fried Rice', price: 170, discount: 5, description: 'Fried rice with mushrooms.', stock: 'Available', image: '/rice.jpg', category: 'Veg Items' },
+    { id: 'v4', name: 'Veg Noodles', price: 140, discount: 5, description: 'Classic street style veg noodles.', stock: 'Available', image: '/noodles.jpg', category: 'Veg Items' },
+    { id: 'v5', name: 'Paneer Noodles', price: 170, discount: 6, description: 'Noodles tossed with paneer.', stock: 'Available', image: '/noodles.jpg', category: 'Veg Items' },
+    { id: 'v6', name: 'Palak Paneer', price: 210, discount: 6, description: 'Paneer in creamy spinach gravy.', stock: 'Available', image: '/paneer.jpg', category: 'Veg Items' },
+    { id: 'v7', name: 'Veg Pulao', price: 160, discount: 6, description: 'Fragrant mild spiced rice with veggies.', stock: 'Available', image: '/rice.jpg', category: 'Veg Items' },
+    { id: 'v8', name: 'Jeera Rice', price: 120, discount: 5, description: 'Cumin flavored basmati rice.', stock: 'Available', image: '/rice.jpg', category: 'Veg Items' },
+    { id: 'v9', name: 'Curd Rice', price: 110, discount: 5, description: 'Comforting yogurt mixed rice.', stock: 'Available', image: '/rice.jpg', category: 'Veg Items' },
+    { id: 'v10', name: 'Veg Thali', price: 220, discount: 8, description: 'Complete traditional veg meal.', stock: 'Available', image: '/thali.jpg', category: 'Veg Items' },
+
+    // Desserts
+    { id: 'd1', name: 'Double Ka Meetha', price: 120, discount: 5, description: 'Traditional Hyderabadi bread pudding.', stock: 'Available', image: '/desert.jpg', category: 'Desserts' },
+    { id: 'd2', name: 'Gulab Jamun', price: 100, discount: 5, description: 'Soft milk solids dipped in rose syrup.', stock: 'Available', image: '/desert.jpg', category: 'Desserts' },
+    { id: 'd3', name: 'Rasmalai', price: 130, discount: 5, description: 'Cottage cheese discs in sweetened milk.', stock: 'Available', image: '/desert.jpg', category: 'Desserts' },
+    { id: 'd4', name: 'Qubani Ka Meetha', price: 150, discount: 6, description: 'Hyderabadi apricot dessert.', stock: 'Available', image: '/desert.jpg', category: 'Desserts' },
+    { id: 'd5', name: 'Khubani Ice Cream', price: 140, discount: 5, description: 'Ice cream topped with apricot.', stock: 'Available', image: '/desert.jpg', category: 'Desserts' },
+    { id: 'd6', name: 'Chocolate Brownie', price: 160, discount: 6, description: 'Rich and gooey chocolate brownie.', stock: 'Available', image: '/desert.jpg', category: 'Desserts' },
+    { id: 'd7', name: 'Vanilla Ice Cream', price: 90, discount: 5, description: 'Classic vanilla ice cream.', stock: 'Available', image: '/desert.jpg', category: 'Desserts' },
+    { id: 'd8', name: 'Fruit Salad with Ice Cream', price: 150, discount: 5, description: 'Fresh fruits with a scoop of ice cream.', stock: 'Available', image: '/desert.jpg', category: 'Desserts' },
+    { id: 'd9', name: 'Carrot Halwa', price: 130, discount: 6, description: 'Warm and sweet carrot pudding.', stock: 'Available', image: '/desert.jpg', category: 'Desserts' },
+    { id: 'd10', name: 'Kaju Katli', price: 180, discount: 5, description: 'Rich cashew fudge.', stock: 'Available', image: '/desert.jpg', category: 'Desserts' },
+];

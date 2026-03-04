@@ -1,0 +1,190 @@
+03.04 11:07 PM
+Products Details
+ CATEGORY 1: BIRYANIS
+1. Chicken Dum Biryani
+Price: ₹220
+Discount: 10%
+Description: Aromatic basmati rice layered with spicy marinated chicken, slow-cooked in dum style.
+Stock: Available
+Image: https://source.unsplash.com/600x400/?chicken-dum-biryani⁠�
+Category: Biryani
+2. Mutton Dum Biryani
+Price: ₹320
+Discount: 5%
+Description: Tender mutton cooked with royal spices and premium long-grain rice.
+Stock: Available
+Image: https://source.unsplash.com/600x400/?mutton-dum-biryani⁠�
+Category: Biryani
+3. Chicken 65 Biryani
+Price: ₹250
+Discount: 8%
+Description: Spicy Chicken 65 pieces layered over rich biryani rice.
+Stock: Available
+Image: https://source.unsplash.com/600x400/?chicken-65-biryani⁠�
+Category: Biryani
+4. Boneless Chicken Biryani
+Price: ₹260
+Discount: 10%
+Description: Juicy boneless chicken mixed with aromatic dum rice.
+Stock: Available
+Image: https://source.unsplash.com/600x400/?boneless-chicken-biryani⁠�
+Category: Biryani
+5. Mandi Chicken Biryani
+Price: ₹270
+Discount: 7%
+Description: Arabic-style mandi rice served with flavorful chicken.
+Stock: Available
+Image: https://source.unsplash.com/600x400/?chicken-mandi⁠�
+Category: Biryani
+6. Mandi Mutton Biryani
+Price: ₹360
+Discount: 6%
+Description: Authentic mutton mandi with rich Middle Eastern spices.
+Stock: Available
+Image: https://source.unsplash.com/600x400/?mutton-mandi⁠�
+Category: Biryani
+7. Egg Biryani
+Price: ₹180
+Discount: 5%
+Description: Boiled eggs cooked in traditional biryani masala.
+Stock: Available
+Image: https://source.unsplash.com/600x400/?egg-biryani⁠�
+Category: Biryani
+8. Veg Biryani
+Price: ₹160
+Discount: 5%
+Description: Mixed vegetables cooked with fragrant spices and basmati rice.
+Stock: Available
+Image: https://source.unsplash.com/600x400/?veg-biryani⁠�
+Category: Biryani
+9. Prawn Biryani
+Price: ₹350
+Discount: 8%
+Description: Coastal-style prawn biryani with bold spices.
+Stock: Limited
+Image: https://source.unsplash.com/600x400/?prawn-biryani⁠�
+Category: Biryani
+10. Family Pack Chicken Biryani
+Price: ₹750
+Discount: 10%
+Description: Large portion chicken biryani perfect for sharing.
+Stock: Available
+Image: https://source.unsplash.com/600x400/?family-biryani⁠�
+Category: Biryani
+
+ CATEGORY 2: STARTERS
+1. Chicken 65
+Price: ₹180
+Discount: 10%
+Description: Crispy deep-fried spicy chicken bites.
+Stock: Available
+Image: https://source.unsplash.com/600x400/?chicken-65⁠�
+Category: Starters
+2. Apollo Fish
+Price: ₹240
+Discount: 5%
+Description: Boneless fish tossed in spicy Andhra-style masala.
+Stock: Available
+Image: https://source.unsplash.com/600x400/?apollo-fish⁠�
+Category: Starters
+3. Chilli Chicken
+Price: ₹200
+Discount: 8%
+Description: Indo-Chinese style spicy chicken starter.
+Stock: Available
+Image: https://source.unsplash.com/600x400/?chilli-chicken⁠�
+Category: Starters
+4. Dragon Chicken
+Price: ₹220
+Discount: 7%
+Description: Sweet and spicy crispy chicken strips.
+Stock: Available
+Image: https://source.unsplash.com/600x400/?dragon-chicken⁠�
+Category: Starters
+5. Pepper Chicken Fry
+Price: ₹210
+Discount: 6%
+Description: Black pepper flavored chicken fry.
+Stock: Available
+Image: https://source.unsplash.com/600x400/?pepper-chicken⁠�
+Category: Starters
+6. Chicken Wings – ₹200 – 6%
+Image: https://source.unsplash.com/600x400/?chicken-wings⁠�
+7. Tandoori Chicken (Half) – ₹240 – 5%
+Image: https://source.unsplash.com/600x400/?tandoori-chicken⁠�
+8. Paneer Tikka – ₹220 – 8%
+Image: https://source.unsplash.com/600x400/?paneer-tikka⁠�
+9. Gobi Manchurian – ₹160 – 10%
+Image: https://source.unsplash.com/600x400/?gobi-manchurian⁠�
+10. Prawn Fry – ₹350 – 7%
+Image: https://source.unsplash.com/600x400/?prawn-fry⁠�
+
+CATEGORY 3: CURRYS (10 Items)
+(Shortened but complete with image links)
+1.Butter Chicken – ₹260 – 8%
+Image: https://source.unsplash.com/600x400/?butter-chicken⁠�
+2.Kadai Chicken – ₹240 – 6%
+Image: https://source.unsplash.com/600x400/?kadai-chicken⁠�
+3.Mutton Curry – ₹320 – 5%
+Image: https://source.unsplash.com/600x400/?mutton-curry⁠�
+4.Fish Curry – ₹280 – 6%
+Image: https://source.unsplash.com/600x400/?fish-curry⁠�
+5.Prawn Curry – ₹360 – 7%
+Image: https://source.unsplash.com/600x400/?prawn-curry⁠�
+6.Paneer Butter Masala – ₹220 – 8%
+Image: https://source.unsplash.com/600x400/?paneer-butter-masala⁠�
+7.Dal Tadka – ₹140 – 5%
+Image: https://source.unsplash.com/600x400/?dal-tadka⁠�
+8.Mushroom Masala – ₹180 – 6%
+Image: https://source.unsplash.com/600x400/?mushroom-masala⁠�
+9.Egg Curry – ₹160 – 6%
+Image: https://source.unsplash.com/600x400/?egg-curry⁠�
+10.Chicken Tikka Masala – ₹250 – 7%
+Image: https://source.unsplash.com/600x400/?chicken-tikka-masala⁠�
+
+CATEGORY 4: VEG ITEMS (10 Items)
+1.Veg Fried Rice – ₹150 – 5%
+Image: https://source.unsplash.com/600x400/?veg-fried-rice⁠�
+2.Paneer Fried Rice – ₹180 – 6%
+Image: https://source.unsplash.com/600x400/?paneer-fried-rice⁠�
+3.Mushroom Fried Rice – ₹170 – 5%
+Image: https://source.unsplash.com/600x400/?mushroom-fried-rice⁠�
+4.Veg Noodles – ₹140 – 5%
+Image: https://source.unsplash.com/600x400/?veg-noodles⁠�
+5.Paneer Noodles – ₹170 – 6%
+Image: https://source.unsplash.com/600x400/?paneer-noodles⁠�
+6.Palak Paneer – ₹210 – 6%
+Image: https://source.unsplash.com/600x400/?palak-paneer⁠�
+7.Veg Pulao – ₹160 – 6%
+Image: https://source.unsplash.com/600x400/?veg-pulao⁠�
+8.Jeera Rice – ₹120 – 5%
+Image: https://source.unsplash.com/600x400/?jeera-rice⁠�
+9.Curd Rice – ₹110 – 5%
+Image: https://source.unsplash.com/600x400/?curd-rice⁠�
+10.Veg Thali – ₹220 – 8%
+Image: https://source.unsplash.com/600x400/?veg-thali⁠�
+
+ CATEGORY 5: DESSERTS (10 Items)
+1.Double Ka Meetha – ₹120 – 5%
+Image: https://source.unsplash.com/600x400/?double-ka-meetha⁠�
+2.Gulab Jamun – ₹100 – 5%
+Image: https://source.unsplash.com/600x400/?gulab-jamun⁠�
+3.Rasmalai – ₹130 – 5%
+Image: https://source.unsplash.com/600x400/?rasmalai⁠�
+10.Qubani Ka Meetha – ₹150 – 6%
+Image: https://source.unsplash.com/600x400/?qubani-ka-meetha⁠�
+4.Khubani Ice Cream – ₹140 – 5%
+Image: https://source.unsplash.com/600x400/?ice-cream⁠�
+5.Chocolate Brownie – ₹160 – 6%
+Image: https://source.unsplash.com/600x400/?brownie⁠�
+6.Vanilla Ice Cream – ₹90 – 5%
+Image: https://source.unsplash.com/600x400/?vanilla-ice-cream⁠�
+7.Fruit Salad with Ice Cream – ₹150 – 5%
+Image: https://source.unsplash.com/600x400/?fruit-salad-dessert⁠�
+8.Carrot Halwa – ₹130 – 6%
+Image: https://source.unsplash.com/600x400/?carrot-halwa⁠�
+9.Kaju Katli – ₹180 – 5%
+Image: https://source.unsplash.com/600x400/?kaju-katli⁠�
+
+
+

@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-red: #8B0000;
+  --color-brand-gold: #D4AF37;
+  --color-brand-dark: #121212;
+  --color-brand-light: #F8F9FA;
+  
+  --font-sans: 'Outfit', sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-brand-dark text-brand-light font-sans antialiased selection:bg-brand-red selection:text-white;
+  }
+}
+
+.glass-panel {
+  @apply bg-black/40 backdrop-blur-md border border-white/10 shadow-xl;
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-gold to-yellow-200;
+}

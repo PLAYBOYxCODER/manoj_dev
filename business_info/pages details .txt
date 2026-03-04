@@ -1,0 +1,50 @@
+03.04 11:08 PM
+Website Structure (Very Important)
+ HOME PAGE
+Page Name : Home
+Tagline : “Welcome to the Royal World of Flavors.”
+Content :
+At Abhiruchi Restaurant's, we bring together tradition, taste, and authenticity to create an unforgettable dining experience. Known for our signature Mandi, Chicken Biryani, and Mutton Biryani, we prepare every dish using carefully selected spices, premium basmati rice, and fresh ingredients.
+Our chefs blend rich culinary heritage with modern quality standards to serve food that satisfies both heart and hunger. Whether you're dining with family, celebrating a special moment, or ordering your favorite meal, we ensure every plate reflects excellence and flavor.
+Experience warm hospitality, generous portions, and a royal touch in every bite at Abhiruchi Restaurant's.
+Finishing Line :
+“Every meal is crafted with passion, every grain tells a royal story.”
+
+ ABOUT PAGE
+Page Name : About Us
+Tagline : “Tradition in Every Taste.”
+Content :
+Established in 2018, Abhiruchi Restaurant's was founded with a vision to deliver authentic Mandi and traditional Biryani with unmatched quality and consistency. Our journey began with a simple goal — to create a place where food lovers can enjoy rich flavors prepared with honesty and dedication.
+We specialize in Chicken Mandi, Mutton Mandi, Chicken Biryani, and Mutton Biryani, each prepared using time-tested recipes and aromatic spices. Hygiene, freshness, and customer satisfaction are the pillars of our service.
+Over the years, we have proudly served thousands of happy customers and continue to grow as a trusted name in taste and tradition.
+Finishing Line :
+“Serving excellence since 2018.”
+
+ PRODUCTS / MENU PAGE
+Page Name : Our Menu
+Tagline : “A Celebration of Authentic Flavors.”
+Content :
+Our menu at Abhiruchi Restaurant's is carefully curated to satisfy every craving. From royal Mandi platters to aromatic Chicken and Mutton Biryanis, from spicy starters to rich curries and delightful desserts — every item is prepared to perfection.
+We focus on quality ingredients, balanced spices, and generous portions to ensure complete satisfaction. Whether you prefer something spicy, mild, traditional, or modern, our menu offers something for everyone.
+Each dish reflects our passion for cooking and commitment to delivering the best dining experience.
+Finishing Line :
+“Explore the taste that defines Abhiruchi.”
+
+GALLERY PAGE
+Page Name : Gallery
+Tagline : “A Visual Feast Before the Real One.”
+Content :
+Take a glimpse into the world of Abhiruchi Restaurant's through our gallery. From our beautifully prepared Mandi platters and sizzling biryanis to our welcoming interiors and happy customers, every image reflects our dedication to quality and presentation.
+We believe food should not only taste good but look delightful too. Our gallery showcases the richness, freshness, and royal presentation that define our restaurant.
+Browse through and let the visuals tempt your taste buds.
+Finishing Line :
+“See the flavor. Feel the experience.”
+
+ CONTACT PAGE
+Page Name : Contact Us
+Tagline : “We’re Just a Call Away.”
+Content :
+Have questions, want to place an order, or planning a special gathering? We’re here to help. At Abhiruchi Restaurant's, customer satisfaction is our priority. Reach out to us through phone, WhatsApp, or email, and our team will assist you promptly.
+Visit us at our restaurant location and enjoy a comfortable dining atmosphere filled with rich aromas and warm hospitality. We look forward to serving you and making every visit memorable.
+Finishing Line :
+“Your table is waiting. Let’s create delicious memories together.”
