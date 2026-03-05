@@ -27,6 +27,9 @@ CREATE TABLE menu_items (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
+-- Enable Real-Time for Menu Items Table
+alter publication supabase_realtime add table menu_items;
+
 -- 3. Orders Table
 -- Purpose: Stores the main order record for a table.
 CREATE TABLE orders (
@@ -95,6 +98,13 @@ CREATE POLICY "Allow public update on orders" ON orders FOR UPDATE USING (true);
 ALTER TABLE order_items ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow public insert to order items" ON order_items FOR INSERT WITH CHECK (true);
 CREATE POLICY "Allow public select on order items" ON order_items FOR SELECT USING (true);
+
+-- Menu Items: Enable RLS
+ALTER TABLE menu_items ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public select on menu items" ON menu_items FOR SELECT USING (true);
+CREATE POLICY "Allow public insert to menu items" ON menu_items FOR INSERT WITH CHECK (true);
+CREATE POLICY "Allow public update on menu items" ON menu_items FOR UPDATE USING (true);
+CREATE POLICY "Allow public delete on menu items" ON menu_items FOR DELETE USING (true);
 
 -- Feedback: Enable RLS
 ALTER TABLE feedback ENABLE ROW LEVEL SECURITY;

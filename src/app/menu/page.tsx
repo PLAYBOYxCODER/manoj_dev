@@ -1,15 +1,55 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { menuItems } from "@/data/menu";
 import { pageDetails } from "@/data/business";
 import { useAppContext } from "@/context/AppContext";
 import { ShoppingCart, Plus } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+
+type MenuItem = {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    discount: number;
+    stock_status: string;
+    category: string;
+    is_active: boolean;
+};
 
 export default function MenuPage() {
     const [activeCategory, setActiveCategory] = useState("All");
+    const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+    const [loading, setLoading] = useState(true);
     const { addToCart } = useAppContext();
+
+    useEffect(() => {
+        const fetchMenu = async () => {
+            const { data, error } = await supabase
+                .from("menu_items")
+                .select("*")
+                .eq("is_active", true)
+                .order('category', { ascending: true })
+                .order('name', { ascending: true });
+
+            if (data) setMenuItems(data);
+            setLoading(false);
+        };
+        fetchMenu();
+
+        // Subscribe to real-time menu updates
+        const subscription = supabase
+            .channel('public:menu_items')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'menu_items' }, () => {
+                fetchMenu();
+            })
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(subscription);
+        };
+    }, []);
 
     const categories = ["All", ...Array.from(new Set(menuItems.map((item) => item.category)))];
 
@@ -35,7 +75,6 @@ export default function MenuPage() {
                     <div className="w-16 h-1 bg-[#8B0000] mx-auto mt-6" />
                 </motion.div>
 
-                {/* Categories */}
                 <div className="flex overflow-x-auto gap-4 mb-16 pb-4 scrollbar-hide justify-start md:justify-center">
                     {categories.map((category) => (
                         <button
@@ -51,58 +90,61 @@ export default function MenuPage() {
                     ))}
                 </div>
 
-                {/* Menu Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredItems.map((item, index) => (
-                        <motion.div
-                            key={item.id}
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: index * 0.05 }}
-                            className="glass-panel rounded-2xl overflow-hidden hover:border-[#D4AF37]/30 transition group flex flex-col"
-                        >
-                            <div className="relative h-60 overflow-hidden bg-white/5">
-                                {/* Simulated images using unsplash or placeholder */}
-                                <div className="absolute inset-0 flex items-center justify-center text-white/20 font-bold tracking-widest uppercase">
-                                    {item.category}
-                                </div>
-                                {item.discount > 0 && (
-                                    <div className="absolute top-4 left-4 bg-[#8B0000] text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg z-10">
-                                        {item.discount}% OFF
+                {loading ? (
+                    <div className="text-white/50 text-center py-20 animate-pulse">Loading Menu...</div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {filteredItems.map((item, index) => (
+                            <motion.div
+                                key={item.id}
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: index * 0.05 }}
+                                className="glass-panel rounded-2xl overflow-hidden hover:border-[#D4AF37]/30 transition group flex flex-col"
+                            >
+                                <div className="relative h-60 overflow-hidden bg-white/5">
+                                    {/* Simulated images using unsplash or placeholder */}
+                                    <div className="absolute inset-0 flex items-center justify-center text-white/20 font-bold tracking-widest uppercase">
+                                        {item.category}
                                     </div>
-                                )}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10" />
-                                <h3 className="absolute bottom-4 left-4 text-xl font-bold text-white z-20 group-hover:text-[#D4AF37] transition">
-                                    {item.name}
-                                </h3>
-                            </div>
+                                    {item.discount > 0 && (
+                                        <div className="absolute top-4 left-4 bg-[#8B0000] text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg z-10">
+                                            {item.discount}% OFF
+                                        </div>
+                                    )}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10" />
+                                    <h3 className="absolute bottom-4 left-4 text-xl font-bold text-white z-20 group-hover:text-[#D4AF37] transition">
+                                        {item.name}
+                                    </h3>
+                                </div>
 
-                            <div className="p-6 flex flex-col flex-1">
-                                <p className="text-white/60 text-sm mb-6 flex-1 line-clamp-2 leading-relaxed">
-                                    {item.description}
-                                </p>
-                                <div className="flex items-center justify-between mt-auto">
-                                    <div>
-                                        <span className="text-2xl font-bold text-white">₹{item.price}</span>
-                                        {item.discount > 0 && (
-                                            <span className="text-white/40 text-sm line-through ml-2">
-                                                ₹{Math.round(item.price * (1 + item.discount / 100))}
-                                            </span>
-                                        )}
+                                <div className="p-6 flex flex-col flex-1">
+                                    <p className="text-white/60 text-sm mb-6 flex-1 line-clamp-2 leading-relaxed">
+                                        {item.description}
+                                    </p>
+                                    <div className="flex items-center justify-between mt-auto">
+                                        <div>
+                                            <span className="text-2xl font-bold text-white">₹{item.price}</span>
+                                            {item.discount > 0 && (
+                                                <span className="text-white/40 text-sm line-through ml-2">
+                                                    ₹{Math.round(item.price * (1 + item.discount / 100))}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <button
+                                            onClick={() => addToCart({ ...item, image: '', quantity: 1 })}
+                                            disabled={item.stock_status !== "Available"}
+                                            className="flex items-center gap-2 bg-gradient-to-r from-[#8B0000] to-red-900 text-white px-4 py-2 rounded-xl hover:from-red-900 hover:to-[#8B0000] transition active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                                        >
+                                            <Plus className="w-4 h-4" />
+                                            {item.stock_status === "Available" ? "Add" : "Sold Out"}
+                                        </button>
                                     </div>
-                                    <button
-                                        onClick={() => addToCart({ ...item, quantity: 1 })}
-                                        disabled={item.stock !== "Available"}
-                                        className="flex items-center gap-2 bg-gradient-to-r from-[#8B0000] to-red-900 text-white px-4 py-2 rounded-xl hover:from-red-900 hover:to-[#8B0000] transition active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
-                                    >
-                                        <Plus className="w-4 h-4" />
-                                        {item.stock === "Available" ? "Add" : "Sold Out"}
-                                    </button>
                                 </div>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );
