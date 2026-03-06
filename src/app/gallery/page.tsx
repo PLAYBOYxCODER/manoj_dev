@@ -7,12 +7,12 @@ import { Image as ImageIcon } from "lucide-react";
 export default function GalleryPage() {
     // Simulating gallery images loaded dynamically
     const galleryImages = [
-        { src: "https://source.unsplash.com/800x600/?restaurant-interior", title: "Royal Ambiance" },
-        { src: "https://source.unsplash.com/800x600/?biryani", title: "Signature Biryani" },
-        { src: "https://source.unsplash.com/800x600/?mandi-rice", title: "Authentic Mandi" },
-        { src: "https://source.unsplash.com/800x600/?spices", title: "Fresh Spices" },
-        { src: "https://source.unsplash.com/800x600/?fine-dining-people", title: "Happy Customers" },
-        { src: "https://source.unsplash.com/800x600/?indian-curry", title: "Rich Curries" },
+        { src: "/imagees/ambiance.jpg.jpeg", title: "Royal Ambiance" },
+        { src: "/imagees/signature%20biryaii.jpg.jpeg", title: "Signature Biryani" },
+        { src: "/imagees/authentic%20mandi.jpg.jpeg", title: "Authentic Mandi" },
+        { src: "/imagees/fresh%20spices.jpg.jpeg", title: "Fresh Spices" },
+        { src: "/imagees/happy%20customers.jpg.jpeg", title: "Happy Customers" },
+        { src: "/imagees/rich%20curries.jpeg", title: "Rich Curries" },
     ];
 
     return (

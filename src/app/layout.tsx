@@ -3,7 +3,8 @@ import { Outfit } from 'next/font/google'
 import './globals.css'
 import { AppProvider } from '@/context/AppContext'
 import Navbar from '@/components/Navbar'
-import CartDrawer from '@/components/CartDrawer'
+import CartDrawer from "@/components/CartDrawer";
+import { CustomerNotificationContainer } from "@/components/CustomerNotifications";
 import ScrollSequence from '@/components/ScrollSequence'
 
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-sans' })
@@ -25,6 +26,7 @@ export default function RootLayout({
           <ScrollSequence />
           <Navbar />
           <CartDrawer />
+          <CustomerNotificationContainer />
           <main className="flex-1 mt-20">{children}</main>
         </AppProvider>
       </body>

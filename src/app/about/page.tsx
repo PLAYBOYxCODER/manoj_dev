@@ -62,26 +62,26 @@ export default function AboutPage() {
                         viewport={{ once: true }}
                         className="grid grid-cols-2 gap-4 h-[600px] relative group"
                     >
-                        <div className="space-y-4">
-                            <div className="h-2/3 rounded-3xl overflow-hidden glass-panel border border-white/10 hover:border-[#D4AF37]/30 transition duration-500">
-                                <img src="https://source.unsplash.com/600x800/?chef-cooking" alt="Chef" className="w-full h-full object-cover group-hover:scale-105 transition duration-700" />
+                        <div className="flex flex-col gap-4 h-full">
+                            <div className="flex-[2] rounded-3xl overflow-hidden glass-panel border border-white/10 hover:border-[#D4AF37]/30 transition duration-500">
+                                <img src="/imagees/ambiance.jpg.jpeg" alt="Our Heritage" className="w-full h-full object-cover group-hover:scale-105 transition duration-700" />
                             </div>
-                            <div className="h-1/3 rounded-3xl overflow-hidden glass-panel border border-[#8B0000]/30 hover:border-[#D4AF37]/30 transition duration-500 bg-[#8B0000]/10 flex items-center justify-center p-6 text-center">
+                            <div className="flex-[1] rounded-3xl overflow-hidden glass-panel border border-white/10 hover:border-[#D4AF37]/30 transition duration-500 bg-[#8B0000]/10 flex items-center justify-center p-6 text-center">
                                 <p className="text-[#D4AF37] font-bold text-xl leading-tight uppercase tracking-widest">
                                     Quality <br />
-                                    <span className="text-white text-sm font-light tracking-widest block mt-2">Guaranteed</span>
+                                    <span className="text-white text-sm font-bold uppercase tracking-widest block mt-2">Guaranteed</span>
                                 </p>
                             </div>
                         </div>
-                        <div className="space-y-4 mt-12">
-                            <div className="h-1/3 rounded-3xl overflow-hidden glass-panel border border-[#D4AF37]/30 hover:border-white/30 transition duration-500 bg-[#D4AF37]/5 flex items-center justify-center p-6 text-center">
+                        <div className="flex flex-col gap-4 h-full">
+                            <div className="flex-[1] rounded-3xl overflow-hidden glass-panel border border-white/10 hover:border-[#D4AF37]/30 transition duration-500 bg-[#8B0000]/10 flex items-center justify-center p-6 text-center">
                                 <p className="text-white font-bold text-4xl leading-tight tracking-widest">
                                     2018 <br />
-                                    <span className="text-[#8B0000] text-sm font-bold uppercase tracking-widest block mt-2">Established</span>
+                                    <span className="text-sm font-bold uppercase tracking-widest block mt-2">Established</span>
                                 </p>
                             </div>
-                            <div className="h-2/3 rounded-3xl overflow-hidden glass-panel border border-white/10 hover:border-[#D4AF37]/30 transition duration-500">
-                                <img src="https://source.unsplash.com/600x800/?indian-spices" alt="Spices" className="w-full h-full object-cover group-hover:scale-105 transition duration-700" />
+                            <div className="flex-[2] rounded-3xl overflow-hidden glass-panel border border-white/10 hover:border-[#D4AF37]/30 transition duration-500">
+                                <img src="/imagees/happy%20customers.jpg.jpeg" alt="Our Chefs" className="w-full h-full object-cover group-hover:scale-105 transition duration-700" />
                             </div>
                         </div>
                     </motion.div>

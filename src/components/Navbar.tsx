@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X, ShoppingBag } from "lucide-react";
+import { Menu, X, ShoppingBag, Clock } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAppContext } from "@/context/AppContext";
 
@@ -13,6 +13,7 @@ export default function Navbar() {
     const links = [
         { name: "Home", href: "/" },
         { name: "Menu", href: "/menu" },
+        { name: "Track Order", href: "/order-tracking" },
         { name: "About", href: "/about" },
         { name: "Gallery", href: "/gallery" },
         { name: "Contact", href: "/contact" },

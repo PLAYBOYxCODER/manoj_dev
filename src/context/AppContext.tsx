@@ -39,6 +39,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         syncTable();
 
         const savedCart = localStorage.getItem("cart");
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         if (savedCart) setCart(JSON.parse(savedCart));
 
         window.addEventListener('storage', syncTable);

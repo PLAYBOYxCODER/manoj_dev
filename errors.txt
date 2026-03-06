@@ -1,0 +1,8 @@
+﻿src/app/checkout/page.tsx(194,10): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/app/checkout/page.tsx(230,18): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/app/checkout/page.tsx(234,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/app/checkout/page.tsx(237,6): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/app/checkout/page.tsx(238,10): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/app/checkout/page.tsx(400,13): error TS1005: ')' expected.
+src/app/checkout/page.tsx(403,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/app/checkout/page.tsx(404,1): error TS1005: '</' expected.

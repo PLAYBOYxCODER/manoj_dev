@@ -57,11 +57,17 @@ export default function CartDrawer() {
                             ) : (
                                 cart.map((item) => (
                                     <div key={item.id} className="flex gap-4">
-                                        <img
-                                            src={item.image}
-                                            alt={item.name}
-                                            className="w-20 h-20 object-cover rounded-lg"
-                                        />
+                                        {item.image ? (
+                                            <img
+                                                src={item.image}
+                                                alt={item.name}
+                                                className="w-20 h-20 object-cover rounded-lg"
+                                            />
+                                        ) : (
+                                            <div className="w-20 h-20 bg-black/40 rounded-lg flex items-center justify-center">
+                                                <ShoppingBag className="w-8 h-8 text-white/20" />
+                                            </div>
+                                        )}
                                         <div className="flex-1 flex flex-col justify-between">
                                             <div>
                                                 <h3 className="font-medium text-white">{item.name}</h3>

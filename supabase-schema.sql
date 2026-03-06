@@ -34,12 +34,13 @@ alter publication supabase_realtime add table menu_items;
 -- Purpose: Stores the main order record for a table.
 CREATE TABLE orders (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    table_number VARCHAR(10) NOT NULL,
+    table_number VARCHAR(10), -- Made nullable for parcel orders
     customer_name VARCHAR(255) NOT NULL,
     customer_phone VARCHAR(20),
     customer_email VARCHAR(255),
     total_price DECIMAL(10, 2) NOT NULL,
     order_status VARCHAR(50) DEFAULT 'Pending', -- 'Pending', 'Preparing', 'Ready', 'Served'
+    order_type VARCHAR(20) DEFAULT 'Dine-in', -- 'Dine-in' or 'Parcel'
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
@@ -73,7 +74,7 @@ CREATE TABLE feedback (
 CREATE TABLE admins (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     username VARCHAR(100) UNIQUE NOT NULL,
-    password_hash TEXT NOT NULL,
+    password TEXT NOT NULL,
     role VARCHAR(50) DEFAULT 'owner',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
@@ -111,6 +112,11 @@ ALTER TABLE feedback ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow public insert to feedback" ON feedback FOR INSERT WITH CHECK (true);
 -- Allow public or owner to read feedback
 CREATE POLICY "Allow public select on feedback" ON feedback FOR SELECT USING (true);
+
+-- Admins: Enable RLS
+ALTER TABLE admins ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public select on admins" ON admins FOR SELECT USING (true);
+CREATE POLICY "Allow public insert to admins" ON admins FOR INSERT WITH CHECK (true);
 
 -- ==========================================
 -- End of Schema

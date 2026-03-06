@@ -1,0 +1,83 @@
+﻿
+> web-app@0.1.0 lint
+> eslint
+
+
+C:\Users\Sai\MINE\PROJECTS\abhiruchi\src\app\about\page.tsx
+  28:25  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  28:53  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  67:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  84:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  98:29  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+
+C:\Users\Sai\MINE\PROJECTS\abhiruchi\src\app\admin\page.tsx
+   81:26  warning  'error' is defined but never used                                                                          @typescript-eslint/no-unused-vars
+   86:65  error    Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
+   87:32  error    Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
+   98:65  error    Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
+  101:36  error    Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
+  113:65  error    Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
+  114:32  error    Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
+  126:8   warning  React Hook useEffect has a missing dependency: 'orders'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  153:66  error    Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
+  154:24  error    Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
+
+C:\Users\Sai\MINE\PROJECTS\abhiruchi\src\app\checkout\page.tsx
+  259:113  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  298:120  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  298:154  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Sai\MINE\PROJECTS\abhiruchi\src\app\contact\page.tsx
+   38:23  error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   62:25  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   62:55  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   84:99  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  114:29  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  114:65  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+C:\Users\Sai\MINE\PROJECTS\abhiruchi\src\app\gallery\page.tsx
+  31:25  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  31:55  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  50:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  63:25  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  63:61  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+
+C:\Users\Sai\MINE\PROJECTS\abhiruchi\src\app\menu\page.tsx
+  266:49  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\Sai\MINE\PROJECTS\abhiruchi\src\app\order-tracking\page.tsx
+  161:64  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Sai\MINE\PROJECTS\abhiruchi\src\app\page.tsx
+   75:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  114:11  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  114:44  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+
+C:\Users\Sai\MINE\PROJECTS\abhiruchi\src\components\CartDrawer.tsx
+  61:45  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\Sai\MINE\PROJECTS\abhiruchi\src\components\CustomerNotifications.tsx
+  121:14  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  132:16  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\Sai\MINE\PROJECTS\abhiruchi\src\components\MenuManager.tsx
+   57:8   warning  React Hook useEffect has a missing dependency: 'fetchMenuItems'. Either include it or remove the dependency array                                                                                                                                                                        react-hooks/exhaustive-deps
+   84:8   warning  React Hook useEffect has a missing dependency: 'fetchMenuItems'. Either include it or remove the dependency array                                                                                                                                                                        react-hooks/exhaustive-deps
+  382:45  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  473:45  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  588:53  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\Sai\MINE\PROJECTS\abhiruchi\src\components\Navbar.tsx
+  5:32  warning  'Clock' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\Sai\MINE\PROJECTS\abhiruchi\src\components\ScrollSequence.tsx
+  4:10  warning  'motion' is defined but never used        @typescript-eslint/no-unused-vars
+  4:29  warning  'useTransform' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\Sai\MINE\PROJECTS\abhiruchi\src\components\Toast.tsx
+  77:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  95:51  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  96:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Γ£û 48 problems (31 errors, 17 warnings)
+

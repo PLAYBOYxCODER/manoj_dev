@@ -72,9 +72,9 @@ export default function Home() {
             viewport={{ once: true }}
             className="relative h-[500px] rounded-2xl overflow-hidden glass-panel border border-[#D4AF37]/20 flex items-center justify-center bg-[#1a1a1a]"
           >
-            {/* Real project would use a provided gallery image, using a placeholder styling for layout */}
+            <img src="/imagees/Premium%20Biryani.png" alt="Premium Biryani" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10" />
-            <span className="px-4 py-8 text-center text-4xl block font-bold text-white/10 tracking-widest uppercase rotate-[-90deg]">Tradition</span>
+            <span className="absolute transform -rotate-90 left-0 top-1/2 -translate-y-1/2 text-center text-4xl block font-bold text-white/10 tracking-widest uppercase">Tradition</span>
             <div className="absolute bottom-6 left-6 z-20">
               <p className="text-2xl font-bold text-white mb-2 tracking-wider">Premium Biryani</p>
               <div className="w-12 h-1 bg-[#D4AF37]" />
