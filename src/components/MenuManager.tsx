@@ -262,13 +262,6 @@ export default function MenuManager() {
 
     // Derived State
     const existingCategories = Array.from(new Set(items.map(i => i.category || "Uncategorized"))).filter(Boolean);
-    
-    // Category counts for display
-    const categoryCounts = items.reduce((acc, item) => {
-        const category = item.category || "Uncategorized";
-        acc[category] = (acc[category] || 0) + 1;
-        return acc;
-    }, {} as Record<string, number>);
 
     // Sort and Filter Logic
     const sortedAndFilteredItems = items
@@ -338,11 +331,9 @@ export default function MenuManager() {
                         onChange={(e) => setFilterCategory(e.target.value)}
                         className="bg-transparent text-white text-sm outline-none cursor-pointer flex-1"
                     >
-                        <option value="All" className="bg-[#121212]">All Categories ({items.length} items)</option>
+                        <option value="All" className="bg-[#121212]">All Categories</option>
                         {existingCategories.map(cat => (
-                            <option key={cat} value={cat} className="bg-[#121212]">
-                                {cat} ({categoryCounts[cat] || 0} items)
-                            </option>
+                            <option key={cat} value={cat} className="bg-[#121212]">{cat}</option>
                         ))}
                     </select>
                 </div>
@@ -401,33 +392,19 @@ export default function MenuManager() {
                             >
                                 <option value="" disabled className="bg-[#121212]">Select Category</option>
                                 {existingCategories.map(cat => (
-                                    <option key={cat} value={cat} className="bg-[#121212]">
-                                        {cat} ({categoryCounts[cat] || 0} items)
-                                    </option>
+                                    <option key={cat} value={cat} className="bg-[#121212]">{cat}</option>
                                 ))}
                                 <option value="+ Add New" className="bg-[#121212] text-[#D4AF37] font-bold">+ Add New Category</option>
                             </select>
                             {showNewCategoryInput && (
-                                <div className="flex gap-2">
-                                    <input
-                                        type="text"
-                                        placeholder="Enter new category name..."
-                                        value={newItem.category}
-                                        onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
-                                        className="bg-black/40 border border-[#D4AF37]/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#D4AF37] text-sm animate-pulse flex-1"
-                                        autoFocus
-                                    />
-                                    <select
-                                        value={newItem.category || existingCategories[0] || ""}
-                                        onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
-                                        className="bg-black/40 border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#D4AF37] text-sm"
-                                    >
-                                        <option value="" disabled className="bg-[#121212]">Select existing category</option>
-                                        {existingCategories.map(cat => (
-                                            <option key={cat} value={cat} className="bg-[#121212]">{cat}</option>
-                                        ))}
-                                    </select>
-                                </div>
+                                <input
+                                    type="text"
+                                    placeholder="Enter new category name..."
+                                    value={newItem.category}
+                                    onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
+                                    className="bg-black/40 border border-[#D4AF37]/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#D4AF37] text-sm animate-pulse"
+                                    autoFocus
+                                />
                             )}
                         </div>
 
@@ -530,7 +507,11 @@ export default function MenuManager() {
                                 <input type="text" value={editingItem.name} onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })} className="bg-black/60 border border-white/20 rounded-lg px-3 py-2 text-white w-full mb-1" />
 
                                 <label className="text-xs text-white/50">Category</label>
-                                <input type="text" value={editingItem.category} onChange={(e) => setEditingItem({ ...editingItem, category: e.target.value })} className="bg-black/60 border border-white/20 rounded-lg px-3 py-2 text-white w-full mb-1" />
+                                <select value={editingItem.category} onChange={(e) => setEditingItem({ ...editingItem, category: e.target.value })} className="bg-black/60 border border-white/20 rounded-lg px-3 py-2 text-white w-full mb-1">
+                                    {existingCategories.map(cat => (
+                                        <option key={cat} value={cat} className="bg-[#121212]">{cat}</option>
+                                    ))}
+                                </select>
 
                                 <div className="flex gap-2">
                                     <div className="flex-1">
@@ -655,12 +636,15 @@ export default function MenuManager() {
                                             </div>
                                         </td>
                                         <td className="py-4 px-4 align-top pt-5">
-                                            <input
-                                                type="text"
+                                            <select
                                                 value={editingItem.category}
                                                 onChange={(e) => setEditingItem({ ...editingItem, category: e.target.value })}
                                                 className="bg-black/60 border border-white/20 rounded-lg px-3 py-2 text-white w-full"
-                                            />
+                                            >
+                                                {existingCategories.map(cat => (
+                                                    <option key={cat} value={cat} className="bg-[#121212]">{cat}</option>
+                                                ))}
+                                            </select>
                                         </td>
                                         <td className="py-4 px-4 align-top pt-5">
                                             <input
