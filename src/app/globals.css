@@ -5,6 +5,8 @@
   --color-brand-gold: #D4AF37;
   --color-brand-dark: #121212;
   --color-brand-light: #F8F9FA;
+  --color-white: #FFFFFF;
+  --color-black: #000000;
   
   --font-sans: 'Outfit', sans-serif;
 }
@@ -21,4 +23,29 @@
 
 .text-gradient {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-gold to-yellow-200;
+}
+
+/* Additional utility classes for consistent colors */
+.text-brand-red {
+  color: var(--color-brand-red);
+}
+
+.text-brand-gold {
+  color: var(--color-brand-gold);
+}
+
+.bg-brand-red {
+  background-color: var(--color-brand-red);
+}
+
+.bg-brand-gold {
+  background-color: var(--color-brand-gold);
+}
+
+.border-brand-red {
+  border-color: var(--color-brand-red);
+}
+
+.border-brand-gold {
+  border-color: var(--color-brand-gold);
 }
