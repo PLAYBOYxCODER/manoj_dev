@@ -81,19 +81,19 @@ export default function AdminDashboard() {
                 } catch (error) {
                     console.log('Audio notification not available');
                 }
-                
+
                 // Show toast notification for new order
                 if (typeof window !== 'undefined' && (window as any).addToast) {
                     (window as any).addToast('info', `🔔 New order received from Table ${payload.new.table_number}!`, 6000);
                 }
-                
+
                 // Show browser notification
                 showOrderNotification(payload.new.table_number, payload.new.customer_name);
             })
             .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'orders' }, payload => {
                 const nextStatus = payload.new.order_status as Order['order_status'];
                 setOrders(prev => prev.map(o => o.id === payload.new.id ? { ...o, order_status: nextStatus } : o));
-                
+
                 // Show toast for status changes
                 if (typeof window !== 'undefined' && (window as any).addToast) {
                     const order = orders.find(o => o.id === payload.new.id);
@@ -108,12 +108,12 @@ export default function AdminDashboard() {
             .channel('public:feedback')
             .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'feedback' }, (payload) => {
                 setTimeout(fetchFeedbacks, 1000);
-                
+
                 // Show toast for new feedback
                 if (typeof window !== 'undefined' && (window as any).addToast) {
                     (window as any).addToast('info', `💬 New feedback received from ${payload.new.customer_name || 'Anonymous'}!`, 5000);
                 }
-                
+
                 // Show browser notification
                 showFeedbackNotification(payload.new.customer_name);
             })
@@ -147,17 +147,27 @@ export default function AdminDashboard() {
     const updateStatus = async (id: string, status: Order['order_status']) => {
         await supabase.from('orders').update({ order_status: status }).eq('id', id);
         setOrders(prev => prev.map(o => o.id === id ? { ...o, order_status: status } : o));
-        
-        // Send customer notification
+
+        // Send customer notification globally
         const order = orders.find(o => o.id === id);
-        if (order && typeof window !== 'undefined' && (window as any).addCustomerNotification) {
-            (window as any).addCustomerNotification(
-                status === 'Preparing' ? 'preparing' : 
-                status === 'Ready' ? 'ready' : 
-                status === 'Served' ? 'served' : 'preparing',
-                order.table_number,
-                order.customer_name
-            );
+        if (order && typeof window !== 'undefined') {
+            const event = new CustomEvent('customerOrderUpdate', {
+                detail: {
+                    type: status.toLowerCase(),
+                    table: order.table_number || 'Parcel',
+                    customer: order.customer_name
+                }
+            });
+            window.dispatchEvent(event);
+
+            // Also call the global add function if available
+            if ((window as any).addCustomerNotification) {
+                (window as any).addCustomerNotification(
+                    status.toLowerCase(),
+                    order.table_number || 'Parcel',
+                    order.customer_name
+                );
+            }
         }
     };
 

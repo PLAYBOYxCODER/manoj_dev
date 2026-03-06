@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Clock, ChefHat, CheckCircle, Package } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 interface CustomerNotification {
   id: string;
@@ -57,31 +58,21 @@ function CustomerNotificationItem({ notification, onRemove }: NotificationProps)
     <motion.div
       initial={{ opacity: 0, y: -50, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -20, scale: 0.95 }}
-      className={`flex items-center gap-3 p-4 rounded-xl border backdrop-blur-sm shadow-lg ${getNotificationColor()} min-w-[320px] max-w-md cursor-pointer hover:scale-105 transition-transform`}
+      exit={{ opacity: 0, scale: 0.95 }}
+      className={`flex items-start gap-4 p-5 rounded-2xl border backdrop-blur-xl shadow-2xl ${getNotificationColor()} min-w-[340px] max-w-sm cursor-pointer hover:scale-105 transition-transform group`}
       onClick={() => onRemove(notification.id)}
     >
-      <div className="flex-shrink-0">
+      <div className="flex-shrink-0 mt-1">
         {getNotificationIcon()}
       </div>
       <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="text-white font-semibold text-sm">Table {notification.tableNumber}</span>
-          <span className="text-white/50 text-xs">•</span>
-          <span className="text-white/50 text-xs">{new Date(notification.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-        </div>
-        <p className="text-white/90 text-sm font-medium">{notification.message}</p>
-        <p className="text-white/60 text-xs mt-1">Tap to dismiss</p>
+        <p className="text-white/80 text-[11px] font-bold uppercase tracking-widest mb-1 flex items-center justify-between">
+          <span>Message from Abhiruchi</span>
+          <span className="text-white/40 font-normal normal-case">{new Date(notification.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+        </p>
+        <p className="text-white text-base font-semibold leading-tight">{notification.message}</p>
+        <p className="text-white/40 text-[10px] mt-3 group-hover:text-white/70 transition-colors uppercase tracking-widest">Tap anywhere to dismiss</p>
       </div>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onRemove(notification.id);
-        }}
-        className="text-white/40 hover:text-white transition-colors flex-shrink-0"
-      >
-        <X className="w-4 h-4" />
-      </button>
     </motion.div>
   );
 }
@@ -127,16 +118,55 @@ export function CustomerNotificationContainer() {
     setNotifications(prev => prev.filter(n => n.id !== id));
   };
 
-  // Expose function globally for admin to call
+  // Expose function globally for admin/local calls
   useEffect(() => {
     (window as any).addCustomerNotification = addNotification;
   }, []);
 
+  // Listen globally to Supabase table changes for the current customer mapping
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // We only care if They are a customer (not an admin on the admin panel)
+    const isAdmin = window.location.pathname.includes('/admin');
+    if (isAdmin) return;
+
+    const subscription = supabase
+      .channel('global-customer-notifications')
+      .on('postgres_changes', {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'orders',
+      }, (payload) => {
+        // Always fetch the freshest values inside the callback in case they just checked out without a hard refresh
+        const table = localStorage.getItem('last_table_number');
+        const customer = localStorage.getItem('last_customer_name');
+
+        if (!table || !customer) return;
+
+        // We ensure it's THEIR order
+        if (
+          (payload.new.table_number === table || (table === 'Parcel' && payload.new.order_type === 'Parcel')) &&
+          payload.new.customer_name === customer
+        ) {
+          const status = payload.new.order_status.toLowerCase();
+          if (['preparing', 'ready', 'served'].includes(status)) {
+            addNotification(status as any, table, customer);
+          }
+        }
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(subscription);
+    };
+  }, []);
+
   return (
-    <div className="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none">
+    <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-3 pointer-events-none w-full max-w-sm px-4">
       <AnimatePresence>
         {notifications.map(notification => (
-          <div key={notification.id} className="pointer-events-auto">
+          <div key={notification.id} className="pointer-events-auto mx-auto w-full">
             <CustomerNotificationItem notification={notification} onRemove={removeNotification} />
           </div>
         ))}

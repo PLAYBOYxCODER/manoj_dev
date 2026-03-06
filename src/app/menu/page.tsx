@@ -4,7 +4,8 @@ import { useDeferredValue, useMemo, useRef, useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { pageDetails } from "@/data/business";
 import { useAppContext } from "@/context/AppContext";
-import { Plus, ChevronLeft, ChevronRight, Search, Loader2 } from "lucide-react";
+import Image from "next/image";
+import { Plus, Minus, ChevronLeft, ChevronRight, Search, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 type MenuItem = {
@@ -61,7 +62,7 @@ export default function MenuPage() {
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
     const [query, setQuery] = useState("");
-    const { addToCart } = useAppContext();
+    const { cart, addToCart, updateQuantity } = useAppContext();
     const categoryScrollRef = useRef<HTMLDivElement | null>(null);
     const deferredQuery = useDeferredValue(query);
 
@@ -207,16 +208,16 @@ export default function MenuPage() {
                             ))}
                         </div>
                     </div>
-                    </motion.div>
+                </motion.div>
 
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.3 }}
-                        className="text-center mb-8 italic text-white/50 text-sm md:text-base font-light"
-                    >
-                        {quotes[0]}
-                    </motion.div>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="text-center mb-8 italic text-white/50 text-sm md:text-base font-light"
+                >
+                    {quotes[0]}
+                </motion.div>
 
                 <AnimatePresence mode="wait">
                     {loading ? (
@@ -225,9 +226,9 @@ export default function MenuPage() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 md:gap-8"
                         >
-                            {Array.from({ length: 9 }).map((_, i) => (
+                            {Array.from({ length: 8 }).map((_, i) => (
                                 <MenuCardSkeleton key={i} />
                             ))}
                         </motion.div>
@@ -251,7 +252,7 @@ export default function MenuPage() {
                                 )}
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 md:gap-8">
                                 {filteredItems.map((item, index) => (
                                     <motion.div
                                         key={item.id}
@@ -261,51 +262,78 @@ export default function MenuPage() {
                                         transition={{ delay: Math.min(index * 0.03, 0.25) }}
                                         className="glass-panel rounded-2xl overflow-hidden hover:border-[#D4AF37]/50 hover:shadow-2xl hover:shadow-[#D4AF37]/10 transition-all duration-300 group flex flex-col group/card"
                                     >
-                                        <div className="relative h-60 overflow-hidden bg-white/5 group-hover/card:scale-[1.02] transition duration-500">
+                                        <div className="relative h-32 sm:h-48 md:h-60 overflow-hidden bg-white/5 group-hover/card:scale-[1.02] transition duration-500">
                                             {item.image_url ? (
-                                                <img
-                                                    src={getSupabaseMenuImageUrl(item.image_url) || undefined}
+                                                <Image
+                                                    src={getSupabaseMenuImageUrl(item.image_url) || "/images/placeholder.jpg"}
                                                     alt={item.name}
-                                                    className="w-full h-full object-cover opacity-90 group-hover/card:opacity-100 group-hover/card:scale-110 transition duration-700"
+                                                    fill
+                                                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                                                    className="object-cover opacity-90 group-hover/card:opacity-100 group-hover/card:scale-110 transition duration-700"
                                                     loading="lazy"
                                                 />
                                             ) : (
-                                                <div className="absolute inset-0 flex items-center justify-center text-white/20 font-bold tracking-widest uppercase bg-gradient-to-br from-black/40 to-white/5">
+                                                <div className="absolute inset-0 flex items-center justify-center text-white/20 font-bold tracking-widest uppercase bg-gradient-to-br from-black/40 to-white/5 text-xs text-center p-2">
                                                     {item.category}
                                                 </div>
                                             )}
                                             {item.discount > 0 && (
-                                                <div className="absolute top-4 left-4 bg-[#8B0000] text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg z-10">
+                                                <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-[#8B0000] text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold shadow-lg z-10">
                                                     {item.discount}% OFF
                                                 </div>
                                             )}
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10" />
-                                            <h3 className="absolute bottom-4 left-4 text-xl font-bold text-white z-20 group-hover:text-[#D4AF37] transition">
+                                            <h3 className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 text-xs sm:text-xl font-bold text-white z-20 group-hover:text-[#D4AF37] transition line-clamp-2 pr-2">
                                                 {item.name}
                                             </h3>
                                         </div>
 
-                                        <div className="p-6 flex flex-col flex-1">
-                                            <p className="text-white/60 text-sm mb-6 flex-1 line-clamp-2 leading-relaxed">
+                                        <div className="p-3 sm:p-6 flex flex-col flex-1 bg-[#121212]/40">
+                                            <p className="text-white/60 text-[10px] sm:text-sm mb-3 sm:mb-6 flex-1 line-clamp-1 sm:line-clamp-2 leading-relaxed">
                                                 {item.description}
                                             </p>
-                                            <div className="flex items-center justify-between mt-auto">
+                                            <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-auto gap-2 sm:gap-0">
                                                 <div>
-                                                    <span className="text-2xl font-bold text-white">₹{item.price}</span>
+                                                    <span className="text-sm sm:text-2xl font-bold text-white block sm:inline">₹{item.price}</span>
                                                     {item.discount > 0 && (
-                                                        <span className="text-white/40 text-sm line-through ml-2">
+                                                        <span className="text-white/40 text-[10px] sm:text-sm line-through sm:ml-2">
                                                             ₹{Math.round(item.price * (1 + item.discount / 100))}
                                                         </span>
                                                     )}
                                                 </div>
-                                                <button
-                                                    onClick={() => addToCart({ id: item.id, name: item.name, price: item.price, image: getSupabaseMenuImageUrl(item.image_url) || "", quantity: 1 })}
-                                                    disabled={item.stock_status !== "Available"}
-                                                    className="flex items-center gap-2 bg-gradient-to-r from-[#8B0000] to-red-900 text-white px-4 py-2 rounded-xl hover:from-red-900 hover:to-[#8B0000] transition active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
-                                                >
-                                                    <Plus className="w-4 h-4" />
-                                                    {item.stock_status === "Available" ? "Add" : "Sold Out"}
-                                                </button>
+
+                                                {(() => {
+                                                    const cartItem = cart.find(i => i.id === item.id);
+                                                    if (cartItem) {
+                                                        return (
+                                                            <div className="flex items-center justify-between sm:justify-center gap-1 sm:gap-3 bg-black/40 rounded-xl p-1 border border-white/5 w-full sm:w-fit">
+                                                                <button
+                                                                    onClick={() => updateQuantity(item.id, cartItem.quantity - 1)}
+                                                                    className="p-1 sm:p-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition text-white"
+                                                                >
+                                                                    <Minus className="w-3 h-3 sm:w-4 sm:h-4" />
+                                                                </button>
+                                                                <span className="w-4 sm:w-6 text-center text-white text-xs sm:text-base font-semibold">{cartItem.quantity}</span>
+                                                                <button
+                                                                    onClick={() => updateQuantity(item.id, cartItem.quantity + 1)}
+                                                                    className="p-1 sm:p-1.5 rounded-lg bg-gradient-to-r from-[#8B0000] to-red-900 text-white transition shadow-lg shrink-0"
+                                                                >
+                                                                    <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
+                                                                </button>
+                                                            </div>
+                                                        );
+                                                    }
+                                                    return (
+                                                        <button
+                                                            onClick={() => addToCart({ id: item.id, name: item.name, price: item.price, image: getSupabaseMenuImageUrl(item.image_url) || "", quantity: 1 })}
+                                                            disabled={item.stock_status !== "Available"}
+                                                            className="flex justify-center items-center gap-1 sm:gap-2 bg-gradient-to-r from-[#8B0000] to-red-900 text-white px-2 sm:px-4 py-1.5 sm:py-2 rounded-xl hover:from-red-900 hover:to-[#8B0000] transition active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed font-medium sm:font-semibold w-full sm:w-auto text-[11px] sm:text-base shadow-lg shadow-red-900/20"
+                                                        >
+                                                            <Plus className="w-3 h-3 sm:w-4 sm:h-4 shrink-0" />
+                                                            {item.stock_status === "Available" ? "Add" : "Sold Out"}
+                                                        </button>
+                                                    );
+                                                })()}
                                             </div>
                                         </div>
                                     </motion.div>
@@ -322,7 +350,7 @@ export default function MenuPage() {
                         viewport={{ once: true }}
                         className="mt-20 text-center text-white/40 italic font-light italic max-w-2xl mx-auto pb-10 border-t border-white/10 pt-10"
                     >
-                    &ldquo;Cooking is all about people. Food is maybe the only universal thing that really has the power to bring everyone together. No matter what culture, everywhere around the world, people eat together.&rdquo;
+                        &ldquo;Cooking is all about people. Food is maybe the only universal thing that really has the power to bring everyone together. No matter what culture, everywhere around the world, people eat together.&rdquo;
                         <div className="mt-4 text-[#D4AF37]/60 font-bold text-xs uppercase tracking-widest">— Abhiruchi Chefs</div>
                     </motion.div>
                 )}

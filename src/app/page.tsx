@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="flex flex-col flex-1">
       {/* Hero Section */}
-      <section className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
+      <section className="relative min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden">
         {/* Abstract Dark Red Background blending smoothly */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a] via-transparent to-[#121212] -z-10" />
         <div className="absolute inset-0 bg-gradient-to-br from-[#8B0000]/20 to-[#D4AF37]/5 -z-10 blur-3xl opacity-50" />

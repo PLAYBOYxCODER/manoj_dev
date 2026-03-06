@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { Plus, Trash2, Edit, Save, Filter, Upload, Image as ImageIcon, CheckCircle, ArrowDownUp, X, Camera, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { showToast } from "@/components/Toast";
 
 type MenuItem = {
@@ -28,6 +29,53 @@ function getMenuImageSrc(value: string | undefined | null) {
     return data.publicUrl || null;
 }
 
+const compressImage = (file: File, maxWidth: number = 1080): Promise<File> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new window.Image();
+            img.src = event.target?.result as string;
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                let width = img.width;
+                let height = img.height;
+
+                if (width > maxWidth) {
+                    height = Math.round((height * maxWidth) / width);
+                    width = maxWidth;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext("2d");
+                if (ctx) {
+                    ctx.drawImage(img, 0, 0, width, height);
+                    canvas.toBlob(
+                        (blob) => {
+                            if (blob) {
+                                const newFile = new File([blob], file.name.replace(/\.[^/.]+$/, ".jpg"), {
+                                    type: "image/jpeg",
+                                    lastModified: Date.now(),
+                                });
+                                resolve(newFile);
+                            } else {
+                                reject(new Error("Canvas to Blob failed"));
+                            }
+                        },
+                        "image/jpeg",
+                        0.8
+                    );
+                } else {
+                    reject(new Error("Failed to get canvas context"));
+                }
+            };
+            img.onerror = (err) => reject(err);
+        };
+        reader.onerror = (err) => reject(err);
+    });
+};
+
 export default function MenuManager() {
     const [items, setItems] = useState<MenuItem[]>([]);
     const [loading, setLoading] = useState(true);
@@ -49,6 +97,7 @@ export default function MenuManager() {
     const [sortBy, setSortBy] = useState("Name");
     const [filterCategory, setFilterCategory] = useState("All");
     const [isUploading, setIsUploading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(0);
     const [uploadSuccess, setUploadSuccess] = useState(false);
     const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
 
@@ -139,25 +188,36 @@ export default function MenuManager() {
     const handleDelete = async (id: string) => {
         const item = items.find(i => i.id === id);
         if (!confirm(`Are you sure you want to delete "${item?.name}"? This action cannot be undone.`)) return;
-        
+
         const { error } = await supabase.from("menu_items").delete().eq("id", id);
         if (error) {
             console.error("Error deleting item", error);
             showToast("error", "Failed to delete item. Please try again.");
             return;
         }
-        
+
         showToast("success", `🗑️ ${item?.name} has been removed from the menu.`);
         fetchMenuItems();
     };
 
     const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>, isEditingForm: boolean) => {
-        const file = event.target.files?.[0];
-        if (!file) return;
+        const originalFile = event.target.files?.[0];
+        if (!originalFile) return;
 
         setIsUploading(true);
         setUploadSuccess(false);
+        setUploadProgress(0);
+
+        const progressInterval = setInterval(() => {
+            setUploadProgress((prev) => {
+                if (prev >= 90) return prev;
+                return prev + 10;
+            });
+        }, 300);
+
         try {
+            const file = await compressImage(originalFile);
+
             const fileExt = (file.name.split(".").pop() || "jpg").toLowerCase();
             const safeExt = fileExt.replace(/[^a-z0-9]/g, "") || "jpg";
             const fileName = `${crypto.randomUUID()}.${safeExt}`;
@@ -175,6 +235,8 @@ export default function MenuManager() {
             if (uploadError) {
                 console.error("Storage upload failed.", uploadError);
                 showToast("error", "Image upload failed. Please check your storage settings.");
+                clearInterval(progressInterval);
+                setIsUploading(false);
                 return;
             }
 
@@ -183,13 +245,18 @@ export default function MenuManager() {
             if (isEditingForm && editingItem) setEditingItem({ ...editingItem, image_url: storedValue });
             else setNewItem({ ...newItem, image_url: storedValue });
 
+            setUploadProgress(100);
             setUploadSuccess(true);
         } catch (error) {
             console.error("Upload error:", error);
             showToast("error", "Failed to upload image. Please try again.");
         } finally {
+            clearInterval(progressInterval);
             setIsUploading(false);
-            setTimeout(() => setUploadSuccess(false), 3000);
+            setTimeout(() => {
+                setUploadSuccess(false);
+                setUploadProgress(0);
+            }, 3000);
         }
     };
 
@@ -283,7 +350,7 @@ export default function MenuManager() {
             </div>
 
             {isAdding && (
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0, y: -20, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -20, scale: 0.95 }}
@@ -367,7 +434,7 @@ export default function MenuManager() {
                                 {isUploading ? (
                                     <div className="flex flex-col items-center text-[#D4AF37]">
                                         <div className="w-8 h-8 border-2 border-[#D4AF37] border-t-transparent animate-spin rounded-full mb-2"></div>
-                                        <span className="text-sm font-semibold animate-pulse">Uploading Photo...</span>
+                                        <span className="text-sm font-semibold animate-pulse">Uploading... {uploadProgress}%</span>
                                         <span className="text-xs text-white/50 mt-1">Please wait</span>
                                     </div>
                                 ) : uploadSuccess ? (
@@ -379,7 +446,15 @@ export default function MenuManager() {
                                 ) : (
                                     <>
                                         {newItem.image_url ? (
-                                            <img src={getMenuImageSrc(newItem.image_url) || undefined} alt="Preview" className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-30 transition" />
+                                            <div className="absolute inset-0 w-full h-full opacity-40 group-hover:opacity-30 transition">
+                                                <Image
+                                                    src={getMenuImageSrc(newItem.image_url) || "/images/placeholder.jpg"}
+                                                    alt="Preview"
+                                                    fill
+                                                    sizes="(max-width: 768px) 100vw, 300px"
+                                                    className="object-cover"
+                                                />
+                                            </div>
                                         ) : null}
                                         <Upload className="w-8 h-8 text-white/40 mb-2 z-10 group-hover:text-[#D4AF37] transition-colors" />
                                         <span className="text-sm text-white/50 z-10 font-medium group-hover:text-white transition-colors">Click to upload photo</span>
@@ -448,7 +523,7 @@ export default function MenuManager() {
                                     {isUploading ? (
                                         <div className="flex flex-col items-center text-[#D4AF37]">
                                             <div className="w-6 h-6 border-2 border-[#D4AF37] border-t-transparent animate-spin rounded-full mb-2"></div>
-                                            <span className="text-xs font-semibold animate-pulse">Uploading Photo...</span>
+                                            <span className="text-xs font-semibold animate-pulse">Uploading... {uploadProgress}%</span>
                                         </div>
                                     ) : (
                                         <>
@@ -470,7 +545,13 @@ export default function MenuManager() {
                                     {/* Thumbnail */}
                                     <div className="w-20 h-20 rounded-xl bg-black/40 border border-white/5 flex-shrink-0 flex items-center justify-center overflow-hidden relative">
                                         {item.image_url ? (
-                                            <img src={getMenuImageSrc(item.image_url) || undefined} alt={item.name} className="w-full h-full object-cover" />
+                                            <Image
+                                                src={getMenuImageSrc(item.image_url) || "/images/placeholder.jpg"}
+                                                alt={item.name}
+                                                fill
+                                                sizes="80px"
+                                                className="object-cover"
+                                            />
                                         ) : (
                                             <ImageIcon className="w-6 h-6 text-white/20" />
                                         )}
@@ -538,7 +619,7 @@ export default function MenuManager() {
                                                         <span className="text-white/50 group-hover:text-white/70 transition-colors">Change Image</span>
                                                     </div>
                                                     {isUploading ? (
-                                                        <span className="text-[#D4AF37] animate-pulse text-xs font-semibold">Uploading...</span>
+                                                        <span className="text-[#D4AF37] animate-pulse text-xs font-semibold">Uploading... {uploadProgress}%</span>
                                                     ) : (
                                                         <span className="text-white/30 text-xs">Click to browse</span>
                                                     )}
@@ -585,7 +666,13 @@ export default function MenuManager() {
                                             {/* Thumbnail */}
                                             <div className="w-14 h-14 rounded-xl bg-black/40 border border-white/5 flex-shrink-0 flex items-center justify-center overflow-hidden">
                                                 {item.image_url ? (
-                                                    <img src={getMenuImageSrc(item.image_url) || undefined} alt={item.name} className="w-full h-full object-cover" />
+                                                    <Image
+                                                        src={getMenuImageSrc(item.image_url) || "/images/placeholder.jpg"}
+                                                        alt={item.name}
+                                                        fill
+                                                        sizes="56px"
+                                                        className="object-cover"
+                                                    />
                                                 ) : (
                                                     <ImageIcon className="w-5 h-5 text-white/20" />
                                                 )}

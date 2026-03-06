@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X, ShoppingBag, Clock } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useAppContext } from "@/context/AppContext";
 
 export default function Navbar() {
@@ -84,25 +84,27 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Menu */}
-            {isOpen && (
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    className="md:hidden absolute w-full bg-black/95 backdrop-blur-xl border-b border-white/10 flex flex-col items-center py-6 space-y-6 shadow-2xl"
-                >
-                    {links.map((link) => (
-                        <Link
-                            key={link.name}
-                            href={link.href}
-                            onClick={toggleOpen}
-                            className="text-lg font-medium text-white hover:text-[#D4AF37]"
-                        >
-                            {link.name}
-                        </Link>
-                    ))}
-                </motion.div>
-            )}
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className="md:hidden absolute top-20 left-0 w-full bg-black/95 backdrop-blur-xl border-b border-white/10 flex flex-col items-center py-6 space-y-6 shadow-2xl"
+                    >
+                        {links.map((link) => (
+                            <Link
+                                key={link.name}
+                                href={link.href}
+                                onClick={toggleOpen}
+                                className="text-lg font-medium text-white hover:text-[#D4AF37]"
+                            >
+                                {link.name}
+                            </Link>
+                        ))}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </nav>
     );
 }

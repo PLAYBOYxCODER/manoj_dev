@@ -12,12 +12,6 @@ export default function CheckoutPage() {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
 
-    // Feedback Details
-    const [feedbackPhone, setFeedbackPhone] = useState("");
-    const [feedbackMessage, setFeedbackMessage] = useState("");
-    const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
-    const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
-
     // Customer Details
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
@@ -99,10 +93,8 @@ export default function CheckoutPage() {
             localStorage.setItem('last_table_number', tableForTracking);
             localStorage.setItem('last_customer_name', name.trim());
 
-            // Redirect to order tracking page
-            setTimeout(() => {
-                router.push(`/order-tracking?table=${tableForTracking}&customer=${encodeURIComponent(name.trim())}`);
-            }, 2000);
+            // Redirect to order tracking page instantly!
+            router.push(`/order-tracking?table=${tableForTracking}&customer=${encodeURIComponent(name.trim())}`);
 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
@@ -113,80 +105,10 @@ export default function CheckoutPage() {
         }
     };
 
-    const handleFeedbackSubmit = async () => {
-        if (!feedbackMessage.trim()) return;
-        setIsSubmittingFeedback(true);
-        try {
-            await supabase.from('feedback').insert([{
-                customer_name: name,
-                phone_number: feedbackPhone || phone,
-                message: feedbackMessage
-            }]);
-            setFeedbackSubmitted(true);
-            setTimeout(() => router.push("/menu"), 2000);
-        } catch (error) {
-            console.error(error);
-            router.push("/menu");
-        } finally {
-            setIsSubmittingFeedback(false);
-        }
-    };
-
     if (success) {
         return (
-            <div className="min-h-screen bg-[#121212] pt-32 pb-20 flex justify-center items-center px-6">
-                <div className="glass-panel p-10 rounded-3xl text-center max-w-lg w-full">
-                    <CheckCircle className="w-20 h-20 text-[#D4AF37] mx-auto mb-6" />
-                    <h2 className="text-3xl font-bold text-white mb-4">Order Placed!</h2>
-                    <p className="text-white/60 mb-6">
-                        {orderType === 'Parcel'
-                            ? "Your parcel order is being prepared. We'll notify you when it's ready for pickup."
-                            : `Your food is being prepared. We will serve it to Table ${tableNumber} shortly.`
-                        }
-                    </p>
-                    <div className="w-12 h-1 bg-[#8B0000] mx-auto mb-6" />
-
-                    {!feedbackSubmitted ? (
-                        <div className="mt-8 text-left bg-black/20 p-6 rounded-2xl border border-white/5">
-                            <h3 className="text-xl font-bold text-white mb-4">How was your experience?</h3>
-                            <p className="text-white/50 text-sm mb-4">Leave a message or feedback for us!</p>
-                            <input
-                                type="tel"
-                                placeholder="Phone Number (Optional)"
-                                value={feedbackPhone}
-                                onChange={(e) => setFeedbackPhone(e.target.value)}
-                                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#D4AF37] transition font-light mb-3"
-                            />
-                            <textarea
-                                placeholder="Your Message or Feedback..."
-                                value={feedbackMessage}
-                                onChange={(e) => setFeedbackMessage(e.target.value)}
-                                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#D4AF37] transition font-light min-h-[100px] resize-y mb-4"
-                            />
-                            <div className="flex gap-4">
-                                <button
-                                    onClick={() => router.push("/menu")}
-                                    className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition"
-                                >
-                                    Skip
-                                </button>
-                                <button
-                                    onClick={handleFeedbackSubmit}
-                                    disabled={isSubmittingFeedback || !feedbackMessage.trim()}
-                                    className="flex-1 py-3 bg-[#D4AF37] hover:bg-yellow-600 text-black font-bold rounded-xl transition disabled:opacity-50"
-                                >
-                                    {isSubmittingFeedback ? "Submitting..." : "Submit"}
-                                </button>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="mt-8 bg-green-900/20 text-green-200 p-6 rounded-xl border border-green-500/30">
-                            <CheckCircle className="w-12 h-12 text-green-400 mx-auto mb-2" />
-                            <p className="font-bold">Thank you for your feedback!</p>
-                            <p className="text-sm opacity-80 mt-1">Redirecting to menu...</p>
-                        </div>
-                    )}
-                </div>
+            <div className="min-h-screen bg-[#121212] flex justify-center items-center px-6">
+                <div className="w-16 h-16 border-4 border-[#D4AF37] border-t-transparent animate-spin rounded-full mx-auto"></div>
             </div>
         );
     }

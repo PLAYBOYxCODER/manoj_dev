@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { showToast } from "@/components/Toast";
 
 export type CartItem = {
     id: string;
@@ -65,7 +66,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
             }
             return [...prev, item];
         });
-        setIsCartOpen(true);
+        showToast("success", `${item.name} added to your tray!`);
     };
 
     const removeFromCart = (id: string) => {
