@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { motion, AnimatePresence } from "framer-motion";
@@ -161,6 +161,24 @@ export default function OrderTrackingPage() {
             setIsSubmittingFeedback(false);
         }
     };
+
+    const initialNotificationSent = useRef(false);
+
+    useEffect(() => {
+        if (!initialNotificationSent.current && orders.length > 0) {
+            const firstOrder = orders[0];
+            const status = firstOrder.order_status.toLowerCase() as 'pending' | 'preparing' | 'ready' | 'served';
+            const event = new CustomEvent('customerOrderUpdate', {
+                detail: {
+                    type: status,
+                    table: firstOrder.table_number || 'Parcel',
+                    customer: firstOrder.customer_name
+                }
+            });
+            window.dispatchEvent(event);
+            initialNotificationSent.current = true;
+        }
+    }, [orders]);
 
     const getStatusStep = (status: string) => {
         switch (status) {

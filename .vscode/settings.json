@@ -1,0 +1,43 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "npx create-expo-app": true,
+        "npx expo": true,
+        "npx eas": true,
+        "npm install": true,
+        "/^npm list -g --depth=0 @expo/ngrok ; npx --version ; node --version ; npm prefix -g$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^npx expo --version ; npx expo diagnostics ; node -e \"const p=require\\('\\./package\\.json'\\); console\\.log\\('expo',p\\.dependencies\\.expo\\); console\\.log\\('sdk',p\\.devDependencies\\? 'dev deps exist': ''\\); console\\.log\\('react-native-webview',p\\.dependencies\\['react-native-webview'\\]\\);\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^npx expo --version; dir; node -e \"console\\.log\\(process\\.cwd\\(\\)\\)\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "true": true,
+        "npx tsc": true,
+        "from": true,
+        "p": true,
+        "p.read_text(encoding='utf-8')": true,
+        "i:03": true,
+        "line!r": true,
+        "PY": true,
+        "/^cd C:\\\\Users\\\\Sai\\\\MINE\\\\PROJECTS\\\\abhiruchi\\\\expo-app; python -c \"from pathlib import Path; lines=Path\\('App\\.tsx'\\)\\.read_text\\(encoding='utf-8'\\)\\.splitlines\\(\\); print\\('\\\\n'\\.join\\(f'\\{i\\+1\\}: \\{repr\\(line\\)\\}' for i,line in enumerate\\(lines\\)\\)\\)\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "ForEach-Object": true,
+        "/^python -c \"from pathlib import Path; import re; s=Path\\('App\\.tsx'\\)\\.read_text\\(encoding='utf-8'\\); print\\('curly', s\\.count\\('\\{'\\), s\\.count\\('\\}'\\)\\); print\\('paren', s\\.count\\('\\('\\), s\\.count\\('\\)'\\)\\); print\\('brackets', s\\.count\\('\\['\\), s\\.count\\('\\]'\\)\\);\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "C:/Users/Sai/AppData/Local/Programs/Python/Python313/python.exe": true,
+        "npm run build": true,
+        "git add": true,
+        "git commit": true,
+        "git remote": true,
+        "git push": true
+    }
+}

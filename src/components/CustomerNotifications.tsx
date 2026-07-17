@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Clock, ChefHat, CheckCircle, Package } from "lucide-react";
+import { X, Clock, ChefHat, CheckSquare, CheckCircle, Package } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 interface CustomerNotification {
   id: string;
-  type: "preparing" | "ready" | "served";
+  type: "pending" | "preparing" | "ready" | "served";
   tableNumber: string;
   customerName: string;
   message: string;
@@ -30,6 +30,8 @@ function CustomerNotificationItem({ notification, onRemove }: NotificationProps)
 
   const getNotificationIcon = () => {
     switch (notification.type) {
+      case "pending":
+        return <CheckSquare className="w-5 h-5 text-cyan-400" />;
       case "preparing":
         return <ChefHat className="w-5 h-5 text-orange-400" />;
       case "ready":
@@ -43,6 +45,8 @@ function CustomerNotificationItem({ notification, onRemove }: NotificationProps)
 
   const getNotificationColor = () => {
     switch (notification.type) {
+      case "pending":
+        return "bg-cyan-900/20 border-cyan-500/30";
       case "preparing":
         return "bg-orange-900/20 border-orange-500/30";
       case "ready":
@@ -56,10 +60,12 @@ function CustomerNotificationItem({ notification, onRemove }: NotificationProps)
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: -50, scale: 0.95 }}
+      layout
+      initial={{ opacity: 0, y: -30, scale: 0.92 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      className={`flex items-start gap-4 p-5 rounded-2xl border backdrop-blur-xl shadow-2xl ${getNotificationColor()} min-w-[340px] max-w-sm cursor-pointer hover:scale-105 transition-transform group`}
+      exit={{ opacity: 0, y: -20, scale: 0.95 }}
+      transition={{ type: 'spring', stiffness: 260, damping: 24 }}
+      className={`flex items-start gap-4 p-5 rounded-3xl border backdrop-blur-xl shadow-2xl ${getNotificationColor()} min-w-[340px] max-w-sm cursor-pointer hover:scale-105 hover:shadow-[0_12px_40px_rgba(212,175,55,0.35)] transition-transform duration-200 group`}
       onClick={() => onRemove(notification.id)}
     >
       <div className="flex-shrink-0 mt-1">
@@ -80,11 +86,12 @@ function CustomerNotificationItem({ notification, onRemove }: NotificationProps)
 export function CustomerNotificationContainer() {
   const [notifications, setNotifications] = useState<CustomerNotification[]>([]);
 
-  const addNotification = (type: "preparing" | "ready" | "served", tableNumber: string, customerName: string) => {
+  const addNotification = (type: "pending" | "preparing" | "ready" | "served", tableNumber: string, customerName: string) => {
     const messages = {
+      pending: `✅ Your order is confirmed and moving forward!`,
       preparing: `🍳 Your order is being prepared!`,
       ready: `✅ Your order is ready for pickup!`,
-      served: `🎉 Enjoy Your Meal!`
+      served: `🎉 Your order is complete. Enjoy your meal!`
     };
 
     const id = Date.now().toString();
@@ -97,16 +104,15 @@ export function CustomerNotificationContainer() {
       timestamp: Date.now()
     };
 
-    setNotifications(prev => [...prev, notification]);
+    setNotifications(prev => [notification, ...prev].slice(0, 4));
 
     // Also play a subtle sound
     try {
-      const audio = new Audio('/notification.mp3');
-      audio.volume = 0.3;
+      const audio = new Audio(type === 'pending' ? '/bell.mp3' : '/notification.mp3');
+      audio.volume = type === 'pending' ? 0.35 : 0.25;
       audio.play().catch(() => {
-        // Fallback to vibration if available
         if ('vibrate' in navigator) {
-          navigator.vibrate([100]);
+          navigator.vibrate([120, 80, 120]);
         }
       });
     } catch (error) {
@@ -150,7 +156,7 @@ export function CustomerNotificationContainer() {
           payload.new.customer_name === customer
         ) {
           const status = payload.new.order_status.toLowerCase();
-          if (['preparing', 'ready', 'served'].includes(status)) {
+          if (['pending', 'preparing', 'ready', 'served'].includes(status)) {
             addNotification(status as any, table, customer);
           }
         }
@@ -185,14 +191,15 @@ export function useOrderNotifications(tableNumber: string, customerName: string)
       const { type, table: orderTable, customer } = event.detail;
       if (orderTable === tableNumber && customer === customerName) {
         const messages: Record<string, string> = {
+          pending: `✅ Your order is confirmed and moving forward!`,
           preparing: `🍳 Your order is being prepared!`,
           ready: `✅ Your order is ready for pickup!`,
-          served: `🎉 Enjoy Your Meal!`
+          served: `🎉 Your order is complete. Enjoy your meal!`
         };
 
         const notification: CustomerNotification = {
           id: Date.now().toString(),
-          type: type as "preparing" | "ready" | "served",
+          type: type as "pending" | "preparing" | "ready" | "served",
           tableNumber: orderTable,
           customerName: customer,
           message: messages[type] || `Your order status has been updated.`,
