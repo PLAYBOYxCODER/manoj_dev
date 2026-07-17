@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X, ShoppingBag, Clock } from "lucide-react";
+import { Menu, X, ShoppingBag, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppContext } from "@/context/AppContext";
 
@@ -44,6 +44,14 @@ export default function Navbar() {
                             </Link>
                         ))}
 
+                        <Link
+                            href="/admin"
+                            className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/10 px-3 py-2 text-sm font-semibold text-[#D4AF37] hover:bg-[#D4AF37]/20 transition"
+                        >
+                            <ShieldCheck className="w-4 h-4" />
+                            Admin
+                        </Link>
+
                         <button
                             onClick={() => setIsCartOpen(true)}
                             className="relative p-2 text-white hover:text-[#D4AF37] transition"
@@ -62,6 +70,14 @@ export default function Navbar() {
                     </div>
 
                     <div className="md:hidden flex items-center gap-4">
+                        <Link
+                            href="/admin"
+                            onClick={() => setIsOpen(false)}
+                            className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/10 px-2.5 py-2 text-sm font-semibold text-[#D4AF37]"
+                        >
+                            <ShieldCheck className="w-4 h-4" />
+                            Admin
+                        </Link>
                         <button
                             onClick={() => setIsCartOpen(true)}
                             className="relative p-2 text-white hover:text-[#D4AF37] transition"
@@ -102,6 +118,14 @@ export default function Navbar() {
                                 {link.name}
                             </Link>
                         ))}
+                        <Link
+                            href="/admin"
+                            onClick={toggleOpen}
+                            className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/10 px-4 py-2 text-lg font-semibold text-[#D4AF37]"
+                        >
+                            <ShieldCheck className="w-5 h-5" />
+                            Admin Panel
+                        </Link>
                     </motion.div>
                 )}
             </AnimatePresence>

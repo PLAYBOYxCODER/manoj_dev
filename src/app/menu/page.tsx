@@ -4,7 +4,6 @@ import { useDeferredValue, useMemo, useRef, useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { pageDetails } from "@/data/business";
 import { useAppContext } from "@/context/AppContext";
-import Image from "next/image";
 import { Plus, Minus, ChevronLeft, ChevronRight, Search, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
@@ -18,6 +17,7 @@ type MenuItem = {
     category: string;
     is_active: boolean;
     image_url?: string;
+    image_src?: string | null;
 };
 
 function getSupabaseMenuImageUrl(value: string | undefined | null) {
@@ -36,6 +36,29 @@ const quotes = [
     "“Food brings people together on many different levels. It’s nourishment of the soul and body.”",
     "“People who love to eat are always the best people.”",
 ];
+
+const MENU_CACHE_KEY = "abhiruchi-menu-cache";
+
+function readCachedMenuItems() {
+    if (typeof window === "undefined") return null;
+    try {
+        const raw = window.sessionStorage.getItem(MENU_CACHE_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed as MenuItem[] : null;
+    } catch {
+        return null;
+    }
+}
+
+function writeCachedMenuItems(items: MenuItem[]) {
+    if (typeof window === "undefined") return;
+    try {
+        window.sessionStorage.setItem(MENU_CACHE_KEY, JSON.stringify(items));
+    } catch {
+        // Ignore storage failures.
+    }
+}
 
 function MenuCardSkeleton() {
     return (
@@ -68,19 +91,51 @@ export default function MenuPage() {
 
     useEffect(() => {
         let isMounted = true;
-        const fetchMenu = async () => {
-            const { data } = await supabase
-                .from("menu_items")
-                .select("*")
-                .eq("is_active", true)
-                .order('category', { ascending: true })
-                .order('name', { ascending: true });
+        const cachedItems = readCachedMenuItems();
 
-            if (!isMounted) return;
-            if (data) setMenuItems(data);
+        if (cachedItems && cachedItems.length > 0) {
+            setMenuItems(cachedItems);
             setLoading(false);
-            setRefreshing(false);
+        }
+
+        const fallbackTimer = window.setTimeout(() => {
+            if (isMounted) {
+                setLoading(false);
+            }
+        }, 1200);
+
+        const fetchMenu = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from("menu_items")
+                    .select("id,name,description,price,discount,stock_status,category,is_active,image_url")
+                    .eq("is_active", true)
+                    .order('category', { ascending: true })
+                    .order('name', { ascending: true });
+
+                if (!isMounted) return;
+                if (error) {
+                    throw error;
+                }
+
+                if (Array.isArray(data)) {
+                    const enhanced = data.map((item: MenuItem) => ({
+                        ...item,
+                        image_src: getSupabaseMenuImageUrl(item.image_url) || "/images/placeholder.jpg"
+                    }));
+                    writeCachedMenuItems(enhanced);
+                    setMenuItems(enhanced);
+                }
+            } catch (error) {
+                console.error("Menu fetch failed", error);
+            } finally {
+                if (isMounted) {
+                    setLoading(false);
+                    setRefreshing(false);
+                }
+            }
         };
+
         fetchMenu();
 
         // Subscribe to real-time menu updates
@@ -94,6 +149,7 @@ export default function MenuPage() {
 
         return () => {
             isMounted = false;
+            window.clearTimeout(fallbackTimer);
             supabase.removeChannel(subscription);
         };
     }, []);
@@ -263,14 +319,16 @@ export default function MenuPage() {
                                         className="glass-panel rounded-2xl overflow-hidden hover:border-[#D4AF37]/50 hover:shadow-2xl hover:shadow-[#D4AF37]/10 transition-all duration-300 group flex flex-col group/card"
                                     >
                                         <div className="relative h-32 sm:h-48 md:h-60 overflow-hidden bg-white/5 group-hover/card:scale-[1.02] transition duration-500">
-                                            {item.image_url ? (
-                                                <Image
-                                                    src={getSupabaseMenuImageUrl(item.image_url) || "/images/placeholder.jpg"}
+                                            {item.image_src ? (
+                                                <img
+                                                    src={item.image_src}
                                                     alt={item.name}
-                                                    fill
-                                                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                                                    className="object-cover opacity-90 group-hover/card:opacity-100 group-hover/card:scale-110 transition duration-700"
                                                     loading="lazy"
+                                                    decoding="async"
+                                                    className="h-full w-full object-cover opacity-90 group-hover/card:opacity-100 group-hover/card:scale-110 transition duration-700"
+                                                    onError={(event) => {
+                                                        event.currentTarget.src = "/images/placeholder.jpg";
+                                                    }}
                                                 />
                                             ) : (
                                                 <div className="absolute inset-0 flex items-center justify-center text-white/20 font-bold tracking-widest uppercase bg-gradient-to-br from-black/40 to-white/5 text-xs text-center p-2">
